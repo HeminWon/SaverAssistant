@@ -18,7 +18,7 @@ class MEMWindowController: NSWindowController {
 
     
     lazy var memWindow: NSWindow? = {
-        let frame: CGRect = CGRect(x: 0, y: 0, width: 400, height: 280)
+        let frame: CGRect = CGRect(x: 0, y: 0, width: NSScreen.main?.frame.size.width ?? 2560, height: NSScreen.main?.frame.size.height ?? 1600)
         let style: NSWindow.StyleMask = [.titled,.closable,.resizable]
         let back: NSWindow.BackingStoreType = .buffered
         let window: MEMWindow = MEMWindow(contentRect: frame, styleMask: style, backing: back, defer: false)

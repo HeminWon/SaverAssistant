@@ -60,20 +60,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         saverBundle?.load()
         return saverBundle
     }
+    
+    func restartAnimation() {
+        stopAnimation()
+        view.startAnimation()
+    }
+    
+    func stopAnimation() {
+        if view.isAnimating {
+            view.stopAnimation()
+        }
+    }
 }
 
 extension AppDelegate: NSWindowDelegate {
     
     func windowWillClose(_ notification: Notification) {
-        //
+        NSApplication.shared.terminate(windowController)
     }
     
     func windowDidResize(_ notification: Notification) {
         //
     }
     
+    func windowWillBeginSheet(_ notification: Notification) {
+        stopAnimation()
+    }
+    
     func windowDidEndSheet(_ notification: Notification) {
-        //
+        restartAnimation()
     }
     
     
