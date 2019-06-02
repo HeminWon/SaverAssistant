@@ -16,7 +16,7 @@ class MEMViewController: NSViewController {
     }
     
     lazy var memView: MEMView = {
-        let frame: CGRect = CGRect(x: 0, y: 0, width: NSScreen.main?.frame.size.width ?? 2560, height: NSScreen.main?.frame.size.height ?? 1600)
+        let frame: CGRect = CGRect(x: 0, y: 0, width: (NSScreen.main?.frame.size.width ?? 2560) * 0.75, height: (NSScreen.main?.frame.size.height ?? 1600) * 0.75 )
         let view: MEMView = MEMView(frame: frame)
         return view
     }()

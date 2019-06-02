@@ -51,6 +51,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.contentView!.addSubview(view)
         
         view.startAnimation()
+        
+        window.beginSheet(view.configureSheet ?? window, completionHandler: nil)
     }
     
     private func loadSaverBundle(_ name: String) -> Bundle? {

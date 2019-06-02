@@ -13,6 +13,8 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
 
     var wkWebView: WKWebView?
     
+    var preferencesWindowController: PreferencesWindowController?
+    
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
     }
@@ -38,11 +40,15 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         if let wkWebView = self.wkWebView {
             wkWebView.stopLoading()
             
-            let urlString = "http://fakeupdate.net/win8/"
+//            let urlString = "http://fakeupdate.net/win8/"
+            let urlString = "http://globe.cid.harvard.edu/?mode=gridSphere&id=CN"
+//            let urlString = "http://stuffin.space/?intldes=2010-064A&search=china"
             
             let url = URL(string: urlString)!
+            
+            let requ = URLRequest.init(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
             if (url.scheme == "http" || url.scheme == "https") {
-                wkWebView.load(URLRequest(url: url))
+                wkWebView.load(requ)
             }
         }
     }
@@ -52,7 +58,18 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     }
     
     override var hasConfigureSheet: Bool {
-        return false
+        return true
+    }
+    
+    override var configureSheet: NSWindow? {
+        if let controller = preferencesWindowController {
+            return controller.window
+        }
+        
+        let controller = PreferencesWindowController(windowNibName: NSNib.Name("PreferencesWindow"))
+        
+        preferencesWindowController = controller
+        return controller.window
     }
     
     override func animateOneFrame() {
