@@ -12,6 +12,7 @@
 		A46A549822A3ED5000E86E35 /* WebHuntView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A549722A3ED5000E86E35 /* WebHuntView.swift */; };
 		A46A549C22A3EE0600E86E35 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A46A549B22A3EE0600E86E35 /* Preferences.storyboard */; };
 		A46A549F22A3FB7000E86E35 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A549E22A3FB7000E86E35 /* PreferencesWindow.swift */; };
+		A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A54A022A420B500E86E35 /* WHContainerViewController.swift */; };
 		A4C48166229A51B60060F891 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A4C4815F229A51B50060F891 /* Info.plist */; };
 		A4C48167229A51B60060F891 /* MEMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48160229A51B50060F891 /* MEMView.swift */; };
 		A4C48168229A51B60060F891 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48161229A51B50060F891 /* AppDelegate.swift */; };
@@ -52,6 +53,7 @@
 		A46A549722A3ED5000E86E35 /* WebHuntView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebHuntView.swift; sourceTree = "<group>"; };
 		A46A549B22A3EE0600E86E35 /* Preferences.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		A46A549E22A3FB7000E86E35 /* PreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
+		A46A54A022A420B500E86E35 /* WHContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHContainerViewController.swift; sourceTree = "<group>"; };
 		A4C4815E229A51B50060F891 /* Runner.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A4C4815F229A51B50060F891 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4C48160229A51B50060F891 /* MEMView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MEMView.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				A46A549522A3ED2A00E86E35 /* PreferencesWindowController.swift */,
+				A46A54A022A420B500E86E35 /* WHContainerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				A46A549822A3ED5000E86E35 /* WebHuntView.swift in Sources */,
 				A46A549F22A3FB7000E86E35 /* PreferencesWindow.swift in Sources */,
 				A46A549622A3ED2A00E86E35 /* PreferencesWindowController.swift in Sources */,
+				A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

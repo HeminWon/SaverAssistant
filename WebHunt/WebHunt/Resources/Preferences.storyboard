@@ -12,7 +12,7 @@
                     <window key="window" identifier="PreferencesWindow" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="CdF-jx-5jU" userLabel="PreferencesWindow" customClass="PreferencesWindow" customModule="WebHunt" customModuleProvider="target">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="666" height="526"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
                         <connections>
                             <outlet property="delegate" destination="dKY-bt-q1o" id="dVI-T4-qdN"/>
@@ -24,22 +24,34 @@
                 </windowController>
                 <customObject id="K9e-8I-6Hh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="139" y="-107"/>
         </scene>
-        <!--View Controller-->
+        <!--Container View Controller-->
         <scene sceneID="xjV-56-JQ1">
             <objects>
-                <viewController id="GcQ-yY-Zxk" sceneMemberID="viewController">
+                <viewController id="GcQ-yY-Zxk" customClass="WHContainerViewController" customModule="WebHunt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="PRe-UB-m62">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="666" height="526"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPs-bk-4Ry">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                <rect key="frame" x="0.0" y="44" width="666" height="482"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <connections>
                                     <segue destination="mRl-Cx-8g6" kind="embed" id="Ol6-ZB-3We"/>
                                 </connections>
                             </containerView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pWL-nL-fa4">
+                                <rect key="frame" x="271" y="13" width="125" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="roundTextured" title="Textured Rounded" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="taR-IP-38h">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="colseBtn:" target="GcQ-yY-Zxk" id="iwN-Nx-c67"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                 </viewController>
@@ -57,7 +69,7 @@
                         <tabViewItem id="3Jn-PW-ShX"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="8jw-7s-LKo">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="650" height="470"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <font key="font" metaFont="message"/>
                         <connections>
@@ -80,7 +92,7 @@
             <objects>
                 <viewController id="cTm-c8-ocZ" sceneMemberID="viewController">
                     <view key="view" id="aOh-K9-HQb">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="650" height="470"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>
@@ -93,7 +105,7 @@
             <objects>
                 <viewController id="uau-NE-mgg" sceneMemberID="viewController">
                     <view key="view" id="B6d-rP-gqz">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="650" height="470"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>
@@ -106,7 +118,7 @@
             <objects>
                 <viewController id="JXV-Zi-Aeh" sceneMemberID="viewController">
                     <view key="view" id="9vS-dh-2YY">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="650" height="470"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>

@@ -19,4 +19,6 @@ class PreferencesWindowController: NSWindowController {
     override func windowWillLoad() {
         super.windowWillLoad()
     }
+    
+    
 }
