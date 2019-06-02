@@ -66,9 +66,9 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
             return controller.window
         }
         
-        let controller = PreferencesWindowController(windowNibName: NSNib.Name("PreferencesWindow"))
-        
-        preferencesWindowController = controller
+        let storyboard = NSStoryboard(name: "Preferences", bundle: Bundle.init(for: WebHuntView.self))
+        let controller = storyboard.instantiateInitialController() as! NSWindowController
+        preferencesWindowController = controller as? PreferencesWindowController
         return controller.window
     }
     

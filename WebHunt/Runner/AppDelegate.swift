@@ -52,8 +52,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         view.startAnimation()
         
-        window.beginSheet(view.configureSheet ?? window, completionHandler: nil)
+        window.beginSheet(view.configureSheet ?? self.tWindow, completionHandler: nil)
     }
+    
+    lazy var tWindow: NSWindow! = {
+        let frame: CGRect = CGRect(x: 0, y: 0, width: (NSScreen.main?.frame.size.width ?? 2560) * 0.25, height:( NSScreen.main?.frame.size.height ?? 1600) * 0.25 )
+        let style: NSWindow.StyleMask = [.titled,.closable,.resizable]
+        let back: NSWindow.BackingStoreType = .buffered
+        let window: NSWindow = NSWindow(contentRect: frame, styleMask: style, backing: back, defer: false)
+        //        window.isResizable = false
+        window.title = "Memories Window"
+//        window.windowController = self
+        //        window.titleVisibility = .hidden
+        //        window.titlebarAppearsTransparent = true
+        //        window.isMovableByWindowBackground = true
+        //        window.backgroundColor = NSColor.red
+        return window
+    }()
     
     private func loadSaverBundle(_ name: String) -> Bundle? {
         let myBundle = Bundle(for: AppDelegate.self)
