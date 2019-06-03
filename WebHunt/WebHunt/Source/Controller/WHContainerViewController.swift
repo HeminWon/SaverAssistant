@@ -18,7 +18,8 @@ class WHContainerViewController: NSViewController {
     
     @IBAction func colseBtn(_ sender: NSButton) {
 //        NSApplication.shared.terminate(nil)
-        self.parent?.view.window?.endSheet(self.view.window!)
+//        self.parent?.view.window?.endSheet(self.view.window!)
+        self.view.window?.sheetParent?.endSheet(self.view.window!)
     }
     
 }
