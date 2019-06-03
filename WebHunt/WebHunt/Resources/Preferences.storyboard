@@ -12,7 +12,7 @@
                     <window key="window" identifier="PreferencesWindow" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="CdF-jx-5jU" userLabel="PreferencesWindow" customClass="PreferencesWindow" customModule="WebHunt" customModuleProvider="target">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="666" height="526"/>
+                        <rect key="contentRect" x="196" y="240" width="666" height="523"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
                         <connections>
                             <outlet property="delegate" destination="dKY-bt-q1o" id="dVI-T4-qdN"/>
@@ -24,14 +24,14 @@
                 </windowController>
                 <customObject id="K9e-8I-6Hh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="-107"/>
+            <point key="canvasLocation" x="139" y="-608"/>
         </scene>
         <!--Container View Controller-->
         <scene sceneID="xjV-56-JQ1">
             <objects>
                 <viewController id="GcQ-yY-Zxk" customClass="WHContainerViewController" customModule="WebHunt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="PRe-UB-m62">
-                        <rect key="frame" x="0.0" y="0.0" width="666" height="526"/>
+                        <rect key="frame" x="0.0" y="0.0" width="666" height="523"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPs-bk-4Ry">
@@ -42,7 +42,7 @@
                                 </connections>
                             </containerView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pWL-nL-fa4">
-                                <rect key="frame" x="271" y="13" width="125" height="23"/>
+                                <rect key="frame" x="271" y="10" width="125" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundTextured" title="Textured Rounded" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="taR-IP-38h">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -57,7 +57,7 @@
                 </viewController>
                 <customObject id="BQy-9y-HJM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="528"/>
+            <point key="canvasLocation" x="139" y="69"/>
         </scene>
         <!--Tab View Controller-->
         <scene sceneID="43U-51-BrI">
@@ -85,7 +85,7 @@
                 </tabViewController>
                 <customObject id="PTY-JJ-weG" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="963"/>
+            <point key="canvasLocation" x="139" y="715"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="5vU-ec-ZJ7">
@@ -98,7 +98,7 @@
                 </viewController>
                 <customObject id="xJy-jB-dQy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-99" y="1396"/>
+            <point key="canvasLocation" x="139" y="1396"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="zxM-g3-pmT">
@@ -111,7 +111,7 @@
                 </viewController>
                 <customObject id="c7c-NN-hVb" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="375" y="1396"/>
+            <point key="canvasLocation" x="800" y="1396"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="yYD-Hy-an2">
@@ -124,7 +124,7 @@
                 </viewController>
                 <customObject id="VMA-5h-X83" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-581" y="1396"/>
+            <point key="canvasLocation" x="-528" y="1396"/>
         </scene>
     </scenes>
 </document>
