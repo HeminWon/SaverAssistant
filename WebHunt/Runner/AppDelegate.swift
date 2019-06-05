@@ -110,3 +110,10 @@ extension AppDelegate: NSWindowDelegate {
     
     
 }
+
+
+extension AppDelegate {
+    @objc func click(){
+        //
+    }
+}

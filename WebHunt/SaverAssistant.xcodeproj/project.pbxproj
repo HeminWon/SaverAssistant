@@ -227,7 +227,7 @@
 					};
 					A45DC0CD22A2DA17001A1447 = {
 						CreatedOnToolsVersion = 10.2;
-						DevelopmentTeam = 6XQ4P3VNAZ;
+						DevelopmentTeam = QY5M3GFBMY;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
@@ -456,7 +456,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 6XQ4P3VNAZ;
+				DEVELOPMENT_TEAM = QY5M3GFBMY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = WebHunt/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
@@ -482,7 +482,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 6XQ4P3VNAZ;
+				DEVELOPMENT_TEAM = QY5M3GFBMY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = WebHunt/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
