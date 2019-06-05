@@ -40,6 +40,7 @@ func mainMenu() -> NSMenu {
     let    fileMenu             =    NSMenu(title: "File")
     mainFileMenuItem.submenu    =    fileMenu
     fileMenu.addItem(withTitle: "New...", action: #selector(NSDocumentController.newDocument(_:)), keyEquivalent: "n")
+    fileMenu.addItem(withTitle: "click", action: #selector(AppDelegate.clickPreferences), keyEquivalent: "m")
     
     return mainMenu
 }

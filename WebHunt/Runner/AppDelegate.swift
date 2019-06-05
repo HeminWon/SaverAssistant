@@ -52,7 +52,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         view.startAnimation()
         
-        window.beginSheet(view.configureSheet ?? self.tWindow, completionHandler: nil)
     }
     
     lazy var tWindow: NSWindow! = {
@@ -60,13 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let style: NSWindow.StyleMask = [.titled,.closable,.resizable]
         let back: NSWindow.BackingStoreType = .buffered
         let window: NSWindow = NSWindow(contentRect: frame, styleMask: style, backing: back, defer: false)
-        //        window.isResizable = false
         window.title = "Memories Window"
-//        window.windowController = self
-        //        window.titleVisibility = .hidden
-        //        window.titlebarAppearsTransparent = true
-        //        window.isMovableByWindowBackground = true
-        //        window.backgroundColor = NSColor.red
         return window
     }()
     
@@ -113,7 +106,9 @@ extension AppDelegate: NSWindowDelegate {
 
 
 extension AppDelegate {
-    @objc func click(){
-        //
+    @objc func clickPreferences(){
+        let window = self.windowController.memWindow!
+        
+        window.beginSheet(view.configureSheet ?? self.tWindow, completionHandler: nil)
     }
 }
