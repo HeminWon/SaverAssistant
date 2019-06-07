@@ -15,20 +15,41 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     var preferencesWindowController: PreferencesWindowController?
     
+    var currentWeb: HunterWeb?
+    
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
+        setup()
     }
     
     required init?(coder decoder: NSCoder) {
         super.init(coder: decoder)
+        setup()
+    }
+    
+    func setup(){
+        setupWebView(withWebView: nil)
+        
+        ManifestLoader.instance.addCallback { _ in
+            self.updateURL()
+        }
+    }
+    
+    func setupWebView(withWebView webView: WKWebView?) {
+        if self.wkWebView != nil {
+            return;
+        }
+        let webViewConfiguration = WKWebViewConfiguration.init()
+        let wkWebView = WKWebView.init(frame: self.bounds, configuration: webViewConfiguration)
+        wkWebView.isHidden = true
+        wkWebView.navigationDelegate = self
+        self.wkWebView = wkWebView
+        self.addSubview(wkWebView)
     }
     
     override func startAnimation() {
         super.startAnimation()
-        let webViewConfiguration = WKWebViewConfiguration.init()
-        let wkWebView = WKWebView.init(frame: self.bounds, configuration: webViewConfiguration)
-        wkWebView.navigationDelegate = self
-        self.wkWebView = wkWebView
+        
         updateURL()
     }
     
@@ -41,10 +62,18 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
             wkWebView.stopLoading()
             
 //            let urlString = "http://fakeupdate.net/win8/"
-            let urlString = "http://globe.cid.harvard.edu/?mode=gridSphere&id=CN"
+//            let urlString = "http://globe.cid.harvard.edu/?mode=gridSphere&id=CN"
 //            let urlString = "http://stuffin.space/?intldes=2010-064A&search=china"
             
-            let url = URL(string: urlString)!
+            let randomWeb = ManifestLoader.instance.randomWeb(excluding: [])
+            
+            guard let web = randomWeb else {
+                return
+            }
+            
+            self.currentWeb = web
+            
+            let url = URL(string: web.url)!
             
             let requ = URLRequest.init(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
             if (url.scheme == "http" || url.scheme == "https") {
@@ -54,7 +83,7 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.addSubview(webView)
+        self.wkWebView?.isHidden = false
     }
     
     override var hasConfigureSheet: Bool {

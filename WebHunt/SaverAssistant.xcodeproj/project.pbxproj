@@ -14,6 +14,10 @@
 		A46A549F22A3FB7000E86E35 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A549E22A3FB7000E86E35 /* PreferencesWindow.swift */; };
 		A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A54A022A420B500E86E35 /* WHContainerViewController.swift */; };
 		A49F54A222AA216400022A59 /* ManifestLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A122AA216400022A59 /* ManifestLoader.swift */; };
+		A49F54A422AA25AD00022A59 /* HunterWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A322AA25AD00022A59 /* HunterWeb.swift */; };
+		A49F54A722AA43ED00022A59 /* WebCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A622AA43ED00022A59 /* WebCache.swift */; };
+		A49F54AA22AA688500022A59 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A922AA688500022A59 /* DownloadManager.swift */; };
+		A49F54AC22AA6A0900022A59 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54AB22AA6A0900022A59 /* AsynchronousOperation.swift */; };
 		A4C48167229A51B60060F891 /* MEMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48160229A51B50060F891 /* MEMView.swift */; };
 		A4C48168229A51B60060F891 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48161229A51B50060F891 /* AppDelegate.swift */; };
 		A4C48169229A51B60060F891 /* MEMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48162229A51B60060F891 /* MEMViewController.swift */; };
@@ -55,6 +59,10 @@
 		A46A549E22A3FB7000E86E35 /* PreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		A46A54A022A420B500E86E35 /* WHContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHContainerViewController.swift; sourceTree = "<group>"; };
 		A49F54A122AA216400022A59 /* ManifestLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestLoader.swift; sourceTree = "<group>"; };
+		A49F54A322AA25AD00022A59 /* HunterWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HunterWeb.swift; sourceTree = "<group>"; };
+		A49F54A622AA43ED00022A59 /* WebCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCache.swift; sourceTree = "<group>"; };
+		A49F54A922AA688500022A59 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		A49F54AB22AA6A0900022A59 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
 		A4C4815E229A51B50060F891 /* Runner.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A4C4815F229A51B50060F891 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4C48160229A51B50060F891 /* MEMView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MEMView.swift; sourceTree = "<group>"; };
@@ -165,9 +173,29 @@
 		A49F549C22AA1E1300022A59 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A49F54A822AA684300022A59 /* Downloads */,
+				A49F54A522AA43C900022A59 /* Cache */,
 				A49F54A122AA216400022A59 /* ManifestLoader.swift */,
+				A49F54A322AA25AD00022A59 /* HunterWeb.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		A49F54A522AA43C900022A59 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				A49F54A622AA43ED00022A59 /* WebCache.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		A49F54A822AA684300022A59 /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				A49F54A922AA688500022A59 /* DownloadManager.swift */,
+				A49F54AB22AA6A0900022A59 /* AsynchronousOperation.swift */,
+			);
+			path = Downloads;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,7 +327,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A46A549822A3ED5000E86E35 /* WebHuntView.swift in Sources */,
+				A49F54A422AA25AD00022A59 /* HunterWeb.swift in Sources */,
+				A49F54A722AA43ED00022A59 /* WebCache.swift in Sources */,
+				A49F54AA22AA688500022A59 /* DownloadManager.swift in Sources */,
 				A46A549F22A3FB7000E86E35 /* PreferencesWindow.swift in Sources */,
+				A49F54AC22AA6A0900022A59 /* AsynchronousOperation.swift in Sources */,
 				A46A549622A3ED2A00E86E35 /* PreferencesWindowController.swift in Sources */,
 				A49F54A222AA216400022A59 /* ManifestLoader.swift in Sources */,
 				A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */,
