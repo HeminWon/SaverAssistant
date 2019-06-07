@@ -1,0 +1,65 @@
+{
+    "version": "0.0.1",
+    "assets": [
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/windows98/",
+            "description": "windows 98"
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/xp/",
+            "description": "windows xp"
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/vista/",
+            "description": "vista"
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/win8/",
+            "description": "windows 8"
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/win7/",
+            "description": ""
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/apple/",
+            "description": ""
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/win10/",
+            "description": ""
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/win10u/",
+            "description": ""
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/steam/",
+            "description": ""
+        },
+        {
+            "type": "fakeupdate",
+            "url": "http://fakeupdate.net/wnc/",
+            "description": ""
+        },
+        {
+            "type": "",
+            "url": "",
+            "description": ""
+        },
+        {
+            "type": "",
+            "url": "",
+            "description": ""
+        }
+    ]
+}
