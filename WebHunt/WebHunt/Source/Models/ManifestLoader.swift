@@ -16,8 +16,8 @@ class ManifestLoader {
     var loadedManifest = [HunterWeb]()
     
     var exhibitionList = [HunterWeb]()
+    var lastExhibitionFromExhibitionList: HunterWeb?
     
-    var processedWebs = [HunterWeb]()
     
     var manifestWebData: Data?
     
@@ -118,11 +118,11 @@ class ManifestLoader {
     // Load Manifests from the saved preferences
     func loadManifestsFromLoadedFiles() {
         // Reset our array
-        processedWebs = []
-        
-        if manifestWebData != nil {
-            readJSONFromData(manifestWebData!, manifest: .Original)
+        guard let data = manifestWebData else {
+            return
         }
+        
+        var processedWebs = readManifestsConfig(data)!
         
         processedWebs = processedWebs.sorted { (HunterWeb0, HunterWeb1) -> Bool in
             return HunterWeb0.url < HunterWeb1.url
@@ -139,13 +139,17 @@ class ManifestLoader {
         let shuffled = loadedManifest.shuffled()
         
         for web in shuffled {
+            
             // ...
             exhibitionList.append(web)
         }
         // On regenerating a new playlist, we try to avoid repeating
-//        while exhibitionList.count > 1 {
-//            exhibitionList.shuffle()
-//        }
+        if let lastExhibition = lastExhibitionFromExhibitionList {
+            if exhibitionList.count > 1 {
+                exhibitionList = exhibitionList.filter{$0.url != lastExhibition.url}
+            }
+        }
+        exhibitionList.shuffle()
     }
     
     func randomWeb(excluding: [HunterWeb]) -> HunterWeb? {
@@ -156,28 +160,45 @@ class ManifestLoader {
         if !exhibitionList.isEmpty {
             return exhibitionList.removeFirst()
         }
-        
-        return nil
+        return findBestEffortWeb()
+    }
+    
+    func findBestEffortWeb() -> HunterWeb? {
+        let shuffled = loadedManifest.shuffled()
+        if shuffled.isEmpty {
+            return nil
+        }
+        return shuffled.first
     }
     
     // MARK: - JSON
-    func readJSONFromData(_ data: Data, manifest: Manifests) {
+    func readJSONFromData(_ data: Data) -> NSDictionary? {
         let options = JSONSerialization.ReadingOptions.allowFragments
         let batches = try? JSONSerialization.jsonObject(with: data, options: options) as? NSDictionary
 
         guard let batch = batches else {
-            return
+            return nil
         }
-        
-        let assets = batch["assets"] as! [NSDictionary]
-
-        for item in assets {
-            let url = item["url"] as! String
-            
-            let web = HunterWeb(url: url)
-            
-            processedWebs.append(web)
-            
+        return batch
+    }
+    
+    func readManifestsConfig(_ data: Data) -> [HunterWeb]? {
+        if let batch = readJSONFromData(data) {
+            let assets = batch["assets"] as! [NSDictionary]
+            var processedWebs = [HunterWeb]()
+            for item in assets {
+                let url = item["url"] as! String
+                let description = item["description"] as! String
+                let type = item["type"] as! String
+                
+                if !url.hasPrefix("http") {
+                    continue
+                }
+                let web = HunterWeb(url: url, description: description, type: type)
+                processedWebs.append(web)
+            }
+            return processedWebs
         }
+        return nil
     }
 }

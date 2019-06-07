@@ -14,8 +14,12 @@ enum Manifests: String {
 
 final class HunterWeb {
     let url: String
+    let description: String
+    let type: String
     
-    init(url: String) {
+    init(url: String, description: String, type: String) {
         self.url = url
+        self.description = description
+        self.type = type
     }
 }
