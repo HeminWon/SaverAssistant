@@ -24,6 +24,7 @@
 		A4C4816A229A51B60060F891 /* MEMWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48163229A51B60060F891 /* MEMWindow.swift */; };
 		A4C4816B229A51B60060F891 /* MEMWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48164229A51B60060F891 /* MEMWindowController.swift */; };
 		A4C4816C229A51B60060F891 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48165229A51B60060F891 /* main.swift */; };
+		A4CF3C5922ABF16500FFCA38 /* WHWebPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CF3C5822ABF16500FFCA38 /* WHWebPreferencesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		A4C48163229A51B60060F891 /* MEMWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MEMWindow.swift; sourceTree = "<group>"; };
 		A4C48164229A51B60060F891 /* MEMWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MEMWindowController.swift; sourceTree = "<group>"; };
 		A4C48165229A51B60060F891 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		A4CF3C5822ABF16500FFCA38 /* WHWebPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHWebPreferencesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 			children = (
 				A46A549522A3ED2A00E86E35 /* PreferencesWindowController.swift */,
 				A46A54A022A420B500E86E35 /* WHContainerViewController.swift */,
+				A4CF3C5822ABF16500FFCA38 /* WHWebPreferencesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				A46A549F22A3FB7000E86E35 /* PreferencesWindow.swift in Sources */,
 				A49F54AC22AA6A0900022A59 /* AsynchronousOperation.swift in Sources */,
 				A46A549622A3ED2A00E86E35 /* PreferencesWindowController.swift in Sources */,
+				A4CF3C5922ABF16500FFCA38 /* WHWebPreferencesViewController.swift in Sources */,
 				A49F54A222AA216400022A59 /* ManifestLoader.swift in Sources */,
 				A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */,
 			);
