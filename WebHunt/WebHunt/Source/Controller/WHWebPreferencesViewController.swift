@@ -121,7 +121,9 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
                      objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         switch item {
         case let category as Category:
-            return "dfsdfsdfsd"
+            return category.type
+        case let web as HunterWeb:
+            return web.description
         default:
             return "untitled"
         }
@@ -157,7 +159,7 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
             let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CheckCell"),
                                             owner: nil) as! NSTableCellView
             // Mark the new view for this video for subsequent callbacks
-            view.textField?.stringValue = "numberString.capitalized"
+            view.textField?.stringValue = web.description.isEmpty ? web.url : web.description
             
             return view
         default:
