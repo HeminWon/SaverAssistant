@@ -88,13 +88,22 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
     
     // MARK: - Outline View Delegate & Data Source
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        
         guard item != nil else { return categories.count }
-        return 0
+        switch item {
+        case let category as Category:
+            return category.webs.count
+        default:
+            return 1
+        }
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        return false
+        switch item {
+        case is Category:
+            return true
+        default:
+            return false
+        }
     }
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
