@@ -303,10 +303,10 @@
             </objects>
             <point key="canvasLocation" x="139" y="1408"/>
         </scene>
-        <!--View Controller-->
+        <!--Advanced View Controller-->
         <scene sceneID="yYD-Hy-an2">
             <objects>
-                <viewController id="JXV-Zi-Aeh" sceneMemberID="viewController">
+                <viewController id="JXV-Zi-Aeh" customClass="HTAdvancedViewController" customModule="WebHunt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="9vS-dh-2YY">
                         <rect key="frame" x="0.0" y="0.0" width="666" height="482"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -324,6 +324,14 @@
                                 <rect key="frame" x="30" y="407" width="45" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Info" bezelStyle="regularSquare" imagePosition="left" inset="2" id="xoD-Pv-vXs">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7jd-h5-rSn">
+                                <rect key="frame" x="176" y="407" width="72" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Warning" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Bh5-dT-rUu">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -376,17 +384,16 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7jd-h5-rSn">
-                                <rect key="frame" x="176" y="407" width="72" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Warning" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Bh5-dT-rUu">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
+                                <connections>
+                                    <action selector="logsBtnAction:" target="JXV-Zi-Aeh" id="q3t-UM-iRi"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="revealLogsFileBtn" destination="zVw-24-QBk" id="IkO-SI-XVH"/>
+                        <outlet property="showLogsBtn" destination="6Hx-E6-mDk" id="BY5-p1-khW"/>
+                    </connections>
                 </viewController>
                 <customObject id="VMA-5h-X83" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
