@@ -14,6 +14,8 @@ final class Preferences {
     // MARK: - Types
     fileprivate enum Identifiers: String {
         case multiMonitorMode = "multiMonitorMode"
+        case debugMode = "debugMode"
+        case logToDisk = "logToDisk"
     }
     
     enum MultiMonitorMode: Int {
@@ -43,6 +45,31 @@ final class Preferences {
     
     init() {
 //        registerDefaultValues()
+    }
+    
+    var debugMode: Bool {
+        get {
+            return value(forIdentifier: .debugMode)
+        }
+        set {
+            setValue(forIdentifier: .debugMode, value: newValue)
+        }
+    }
+    
+    var logToDisk: Bool {
+        get {
+            return value(forIdentifier: .logToDisk)
+        }
+        set {
+            setValue(forIdentifier: .logToDisk, value: newValue)
+        }
+    }
+    
+    // MARK: - Setting, Getting
+    
+    fileprivate func value(forIdentifier identifier: Identifiers) -> Bool {
+        let key = identifier.rawValue
+        return userDefaults.bool(forKey: key)
     }
     
     fileprivate func optionalValue(forIdentifier identifier: Identifiers) -> Int? {
