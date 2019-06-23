@@ -116,25 +116,26 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lWA-jf-Iaw">
-                                <rect key="frame" x="277" y="201" width="37" height="17"/>
+                                <rect key="frame" x="277" y="201" width="101" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Qq7-4s-Q4l">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Exhibition Webs" id="Qq7-4s-Q4l">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ofO-Js-CdE">
-                                <rect key="frame" x="406" y="202" width="77" height="25"/>
+                                <rect key="frame" x="406" y="202" width="184" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Okq-Zq-sgK" id="oJu-IP-yp3">
+                                <popUpButtonCell key="cell" type="push" title="Mirrored on All Displays" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="b65-OB-56v" id="oJu-IP-yp3">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="L4g-y5-ZVT">
                                         <items>
-                                            <menuItem title="Item 1" state="on" id="Okq-Zq-sgK"/>
-                                            <menuItem title="Item 2" id="b65-OB-56v"/>
-                                            <menuItem title="Item 3" id="fbs-yb-lcp"/>
+                                            <menuItem title="Mirrored on All Displays" state="on" id="b65-OB-56v"/>
+                                            <menuItem title="Only on Main Display" id="Okq-Zq-sgK"/>
+                                            <menuItem title="Different on Each Display" id="fbs-yb-lcp"/>
+                                            <menuItem title="Only on Secondary Displays" id="esz-6x-cdo"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
@@ -144,7 +145,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="SfX-bd-F87" id="Itv-6M-Qvq">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Sv7-KC-m0g">
                                         <items>
                                             <menuItem title="Item 1" state="on" id="SfX-bd-F87"/>
@@ -169,7 +170,7 @@
                                             <tableColumns>
                                                 <tableColumn width="245" minWidth="16" maxWidth="1000" id="1BQ-7x-NVE">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>

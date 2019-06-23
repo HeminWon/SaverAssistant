@@ -17,6 +17,33 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     var currentWeb: HunterWeb?
     
+    static var previewView: WebHuntView?
+    
+    static var sharingWebs: Bool {
+        let preferences = Preferences.sharedInstance
+        return (preferences.multiMonitorMode == Preferences.MultiMonitorMode.mirrored.rawValue)
+    }
+    
+    static var instanciatedViews: [WebHuntView] = []
+    
+    static var singlePlayerAlreadySetup: Bool = false
+    static var sharedPlayerIndex: Int?
+    
+    class var sharedWebView: WKWebView {
+        struct Static {
+            static let instance: WKWebView = WKWebView()
+            static var _webView: WKWebView?
+            static var webView: WKWebView {
+                if let activeWebView = _webView {
+                    return activeWebView
+                }
+                _webView = WKWebView()
+                return _webView!
+            }
+        }
+        return Static.webView
+    }
+    
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
         setup()
@@ -28,7 +55,35 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     }
     
     func setup(){
-        setupWebView(withWebView: nil)
+        
+        var localWebView : WKWebView?
+        let notPreview = !isPreview
+        
+        if notPreview {
+            //
+        } else {
+            WebHuntView.previewView = self
+        }
+        
+        if localWebView == nil {
+            if WebHuntView.sharingWebs {
+                localWebView = WebHuntView.sharedWebView
+            } else {
+                localWebView = WKWebView()
+            }
+        }
+        
+        guard let webView = localWebView else {
+            return
+        }
+        
+        setupWebView(withWebView: webView)
+        
+        // We're NOT sharing the preview !!!!!
+        if !isPreview {
+            WebHuntView.singlePlayerAlreadySetup = true
+            WebHuntView.sharedPlayerIndex = WebHuntView.instanciatedViews.count - 1
+        }
         
         ManifestLoader.instance.addCallback { _ in
             self.updateURL()
@@ -47,6 +102,8 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         self.addSubview(wkWebView)
     }
     
+    
+    // MARK: Lifecycle stuff
     override func startAnimation() {
         super.startAnimation()
         
@@ -105,6 +162,7 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         super.animateOneFrame()
     }
     
+    // MARK:
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
