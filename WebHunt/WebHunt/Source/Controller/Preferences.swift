@@ -45,6 +45,8 @@ final class Preferences {
     
     init() {
 //        registerDefaultValues()
+        self.debugMode = true
+        self.logToDisk = true
     }
     
     var debugMode: Bool {

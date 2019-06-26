@@ -87,7 +87,7 @@ func Log(level: LogLevel, message: String) {
             
             if let cacheDirectory = WebCache.cacheDirectory {
                 var cacheFileUrl = URL(fileURLWithPath: cacheDirectory as String)
-                cacheFileUrl.appendPathComponent("AerialLog.txt")
+                cacheFileUrl.appendPathComponent("hunter.log")
                 
                 let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false)!
                 //let data = message.data(using: String.Encoding.utf8, allowLossyConversion: false)!
@@ -142,7 +142,7 @@ func errorLog(_ message: String) {
 func dataLog(_ data: Data) {
     let cacheDirectory = WebCache.cacheDirectory!
     var cacheFileUrl = URL(fileURLWithPath: cacheDirectory as String)
-    cacheFileUrl.appendPathComponent("AerialData.txt")
+    cacheFileUrl.appendPathComponent("hunter.log")
     
     if FileManager.default.fileExists(atPath: cacheFileUrl.path) {
         do {
@@ -161,4 +161,8 @@ func dataLog(_ data: Data) {
         }
     }
     
+}
+
+func fileName(_ file: String) -> String {
+    return (file as NSString).lastPathComponent
 }

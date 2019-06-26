@@ -46,12 +46,18 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(frame) \(isPreview)")
         setup()
     }
     
     required init?(coder decoder: NSCoder) {
         super.init(coder: decoder)
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(decoder)")
         setup()
+    }
+    
+    deinit {
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
     }
     
     func setup(){
@@ -106,12 +112,13 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     // MARK: Lifecycle stuff
     override func startAnimation() {
         super.startAnimation()
-        
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
         updateURL()
     }
     
     override func stopAnimation() {
         super.stopAnimation()
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
     }
     
     func updateURL() {
@@ -144,10 +151,12 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     }
     
     override var hasConfigureSheet: Bool {
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
         return true
     }
     
     override var configureSheet: NSWindow? {
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
         if let controller = preferencesWindowController {
             return controller.window
         }
@@ -160,6 +169,7 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     override func animateOneFrame() {
         super.animateOneFrame()
+//        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
     }
     
     // MARK:
