@@ -15,8 +15,6 @@
 		A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A54A022A420B500E86E35 /* WHContainerViewController.swift */; };
 		A49B1BDB22BF907000872E5C /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BDA22BF907000872E5C /* Preferences.swift */; };
 		A49B1BDF22BFC0D700872E5C /* LogMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BDE22BFC0D700872E5C /* LogMessage.swift */; };
-		A49B1BE222BFCD9900872E5C /* LogInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BE022BFCD9900872E5C /* LogInfoViewController.swift */; };
-		A49B1BE322BFCD9900872E5C /* LogInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A49B1BE122BFCD9900872E5C /* LogInfoViewController.xib */; };
 		A49B1BE622BFCE4800872E5C /* HTAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BE422BFCE4800872E5C /* HTAdvancedViewController.swift */; };
 		A49F54A222AA216400022A59 /* ManifestLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A122AA216400022A59 /* ManifestLoader.swift */; };
 		A49F54A422AA25AD00022A59 /* HunterWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A322AA25AD00022A59 /* HunterWeb.swift */; };
@@ -67,8 +65,6 @@
 		A46A54A022A420B500E86E35 /* WHContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHContainerViewController.swift; sourceTree = "<group>"; };
 		A49B1BDA22BF907000872E5C /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		A49B1BDE22BFC0D700872E5C /* LogMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessage.swift; sourceTree = "<group>"; };
-		A49B1BE022BFCD9900872E5C /* LogInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInfoViewController.swift; sourceTree = "<group>"; };
-		A49B1BE122BFCD9900872E5C /* LogInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogInfoViewController.xib; sourceTree = "<group>"; };
 		A49B1BE422BFCE4800872E5C /* HTAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTAdvancedViewController.swift; sourceTree = "<group>"; };
 		A49F54A122AA216400022A59 /* ManifestLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestLoader.swift; sourceTree = "<group>"; };
 		A49F54A322AA25AD00022A59 /* HunterWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HunterWeb.swift; sourceTree = "<group>"; };
@@ -175,8 +171,6 @@
 				A46A54A022A420B500E86E35 /* WHContainerViewController.swift */,
 				A4CF3C5822ABF16500FFCA38 /* WHWebPreferencesViewController.swift */,
 				A49B1BE422BFCE4800872E5C /* HTAdvancedViewController.swift */,
-				A49B1BE022BFCD9900872E5C /* LogInfoViewController.swift */,
-				A49B1BE122BFCD9900872E5C /* LogInfoViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -324,7 +318,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A46A549C22A3EE0600E86E35 /* Preferences.storyboard in Resources */,
-				A49B1BE322BFCD9900872E5C /* LogInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,7 +353,6 @@
 				A46A549622A3ED2A00E86E35 /* PreferencesWindowController.swift in Sources */,
 				A4CF3C5922ABF16500FFCA38 /* WHWebPreferencesViewController.swift in Sources */,
 				A49B1BDF22BFC0D700872E5C /* LogMessage.swift in Sources */,
-				A49B1BE222BFCD9900872E5C /* LogInfoViewController.swift in Sources */,
 				A49F54A222AA216400022A59 /* ManifestLoader.swift in Sources */,
 				A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */,
 			);

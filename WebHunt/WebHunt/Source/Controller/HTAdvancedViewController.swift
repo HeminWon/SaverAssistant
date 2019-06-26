@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Foundation
 
 class HTAdvancedViewController: NSViewController {
 
@@ -21,7 +22,11 @@ class HTAdvancedViewController: NSViewController {
     }
     
     @IBAction func logsBtnAction(_ sender: NSButton) {
-        let logVC = LogInfoViewController(nibName: "LogInfoViewController", bundle: Bundle(for: HTAdvancedViewController.self))
-        self.presentAsModalWindow(logVC)
+        let shell = "open /Library/Caches/WebHunt/hunter.log"
+        let task = Process()
+        task.launchPath = "/bin/bash"
+        task.arguments = ["-c", shell]
+        
+        task.launch()
     }
 }
