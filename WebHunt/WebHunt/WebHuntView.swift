@@ -44,6 +44,7 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         return Static.webView
     }
     
+    // MARK: init
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
         debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(frame) \(isPreview)")
@@ -60,6 +61,18 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
     }
     
+    // MARK: Lifecycle stuff
+    override func startAnimation() {
+        super.startAnimation()
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
+    }
+    
+    override func stopAnimation() {
+        super.stopAnimation()
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
+    }
+    
+    // MARK: Private
     func setup(){
         
         var localWebView : WKWebView?
@@ -92,6 +105,7 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         }
         
         ManifestLoader.instance.addCallback { _ in
+            debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
             self.updateURL()
         }
     }
@@ -106,19 +120,6 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         wkWebView.navigationDelegate = self
         self.wkWebView = wkWebView
         self.addSubview(wkWebView)
-    }
-    
-    
-    // MARK: Lifecycle stuff
-    override func startAnimation() {
-        super.startAnimation()
-        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
-        updateURL()
-    }
-    
-    override func stopAnimation() {
-        super.stopAnimation()
-        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
     }
     
     func updateURL() {
@@ -146,12 +147,12 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         }
     }
     
+    // MARK: delegate WKNavigationDelegate
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.wkWebView?.isHidden = false
     }
     
     override var hasConfigureSheet: Bool {
-        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
         return true
     }
     
