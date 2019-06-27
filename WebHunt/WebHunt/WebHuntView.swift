@@ -37,7 +37,8 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
                 if let activeWebView = _webView {
                     return activeWebView
                 }
-                _webView = WKWebView()
+                let webViewConfiguration = WKWebViewConfiguration.init()
+                _webView = WKWebView(frame:CGRect.zero, configuration: webViewConfiguration)
                 return _webView!
             }
         }
@@ -110,16 +111,17 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         }
     }
     
-    func setupWebView(withWebView webView: WKWebView?) {
+    func setupWebView(withWebView webView: WKWebView) {
         if self.wkWebView != nil {
             return;
         }
-        let webViewConfiguration = WKWebViewConfiguration.init()
-        let wkWebView = WKWebView.init(frame: self.bounds, configuration: webViewConfiguration)
-        wkWebView.isHidden = true
-        wkWebView.navigationDelegate = self
-        self.wkWebView = wkWebView
-        self.addSubview(wkWebView)
+
+        webView.navigationDelegate = self
+        webView.frame = self.bounds
+        webView.isHidden = true
+        debugLog("\(webView) \(webView.frame) \(webView.isHidden)")
+        self.wkWebView = webView
+        self.addSubview(webView)
     }
     
     func updateURL() {
@@ -149,7 +151,8 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     // MARK: delegate WKNavigationDelegate
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.wkWebView?.isHidden = false
+        webView.isHidden = false
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(webView) \(webView.frame) \(webView.isHidden)")
     }
     
     override var hasConfigureSheet: Bool {
@@ -170,7 +173,6 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     override func animateOneFrame() {
         super.animateOneFrame()
-//        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
     }
     
     // MARK:

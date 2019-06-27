@@ -47,6 +47,7 @@ final class Preferences {
 //        registerDefaultValues()
         self.debugMode = true
         self.logToDisk = true
+        self.multiMonitorMode = MultiMonitorMode.mirrored.rawValue
     }
     
     var debugMode: Bool {
