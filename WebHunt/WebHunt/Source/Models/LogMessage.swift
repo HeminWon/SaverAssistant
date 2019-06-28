@@ -9,7 +9,7 @@
 import Foundation
 import os.log
 
-enum LogLevel: Int {
+enum LogLevel: String {
     case info, debug, warning, error
 }
 
@@ -46,21 +46,21 @@ final class Logger {
         }
     }
 }
-var errorMessages = [LogMessage]()
+var LogMessages = [LogMessage]()
 
 // swiftlint:disable:next identifier_name
 func Log(level: LogLevel, message: String) {
-    errorMessages.append(LogMessage(level: level, message: message))
+    LogMessages.append(LogMessage(level: level, message: message))
     
     // We throw errors to console, they always matter
     if level == .error {
         if #available(OSX 10.12, *) {
             // This is faster when available
             let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Screensaver")
-            os_log("AerialError: %@", log: log, type: .error, message)
+            os_log("HunterError: %@", log: log, type: .error, message)
         } else {
             // Fallback on earlier versions
-            NSLog("AerialError: \(message)")
+            NSLog("HunterError: \(message)")
         }
     }
     
@@ -79,18 +79,13 @@ func Log(level: LogLevel, message: String) {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .none
             dateFormatter.timeStyle = .medium
-            let string = dateFormatter.string(from: Date()) + " : " + message + "\n"
-            //let string = message + "\n"
-            
-            // tmpOverride
-            //if var cacheFileUrl = try? FileManager.default.url(for: .desktopDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+            let string = dateFormatter.string(from: Date()) + " \(level)" + " : " + message + "\n"
             
             if let cacheDirectory = WebCache.cacheDirectory {
                 var cacheFileUrl = URL(fileURLWithPath: cacheDirectory as String)
                 cacheFileUrl.appendPathComponent("hunter.log")
                 
                 let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-                //let data = message.data(using: String.Encoding.utf8, allowLossyConversion: false)!
                 
                 if FileManager.default.fileExists(atPath: cacheFileUrl.path) {
                     do {
@@ -137,30 +132,6 @@ func warnLog(_ message: String) {
 
 func errorLog(_ message: String) {
     Log(level: .error, message: message)
-}
-
-func dataLog(_ data: Data) {
-    let cacheDirectory = WebCache.cacheDirectory!
-    var cacheFileUrl = URL(fileURLWithPath: cacheDirectory as String)
-    cacheFileUrl.appendPathComponent("hunter.log")
-    
-    if FileManager.default.fileExists(atPath: cacheFileUrl.path) {
-        do {
-            let fileHandle = try FileHandle(forWritingTo: cacheFileUrl)
-            fileHandle.seekToEndOfFile()
-            fileHandle.write(data)
-            fileHandle.closeFile()
-        } catch {
-            print("Can't open handle")
-        }
-    } else {
-        do {
-            try data.write(to: cacheFileUrl, options: .atomic)
-        } catch {
-            print("Can't write to file")
-        }
-    }
-    
 }
 
 func fileName(_ file: String) -> String {
