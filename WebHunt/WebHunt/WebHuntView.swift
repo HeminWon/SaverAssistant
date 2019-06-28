@@ -15,7 +15,7 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     var preferencesWindowController: PreferencesWindowController?
     
-    var currentWeb: HunterWeb?
+    static var webs: [HunterWeb] = [HunterWeb]()
     
     static var previewView: WebHuntView?
     
@@ -24,25 +24,20 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         return (preferences.multiMonitorMode == Preferences.MultiMonitorMode.mirrored.rawValue)
     }
     
-    static var instanciatedViews: [WebHuntView] = []
-    
-    static var singlePlayerAlreadySetup: Bool = false
-    static var sharedPlayerIndex: Int?
-    
-    class var sharedWebView: WKWebView {
+    class var sharedWeb: HunterWeb {
         struct Static {
-            static let instance: WKWebView = WKWebView()
-            static var _webView: WKWebView?
-            static var webView: WKWebView {
-                if let activeWebView = _webView {
-                    return activeWebView
+            static let instance: HunterWeb = HunterWeb(url: "", description: "", type: "")
+            static var _web: HunterWeb?
+            static var web: HunterWeb {
+                if let activeWeb = _web {
+                    return activeWeb
                 }
-                let webViewConfiguration = WKWebViewConfiguration.init()
-                _webView = WKWebView(frame:CGRect.zero, configuration: webViewConfiguration)
-                return _webView!
+
+                _web = ManifestLoader.instance.randomWeb(excluding: WebHuntView.webs)
+                return _web!
             }
         }
-        return Static.webView
+        return Static.web
     }
     
     // MARK: init
@@ -75,35 +70,8 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     // MARK: Private
     func setup(){
-        
-        var localWebView : WKWebView?
-        let notPreview = !isPreview
-        
-        if notPreview {
-            //
-        } else {
-            WebHuntView.previewView = self
-        }
-        
-        if localWebView == nil {
-            if WebHuntView.sharingWebs {
-                localWebView = WebHuntView.sharedWebView
-            } else {
-                localWebView = WKWebView()
-            }
-        }
-        
-        guard let webView = localWebView else {
-            return
-        }
-        
-        setupWebView(withWebView: webView)
-        
-        // We're NOT sharing the preview !!!!!
-        if !isPreview {
-            WebHuntView.singlePlayerAlreadySetup = true
-            WebHuntView.sharedPlayerIndex = WebHuntView.instanciatedViews.count - 1
-        }
+
+        setupWebView()
         
         ManifestLoader.instance.addCallback { _ in
             debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
@@ -111,41 +79,48 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         }
     }
     
-    func setupWebView(withWebView webView: WKWebView) {
-        if self.wkWebView != nil {
+    func createWebView() -> WKWebView {
+        let webViewConfiguration = WKWebViewConfiguration.init()
+        let webView = WKWebView(frame:CGRect.zero, configuration: webViewConfiguration)
+        return webView
+    }
+    
+    func setupWebView() {
+        if let webView = self.wkWebView {
+            debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(webView)")
             return;
         }
-
-        webView.navigationDelegate = self
-        webView.frame = self.bounds
-        webView.isHidden = true
-        debugLog("\(webView) \(webView.frame) \(webView.isHidden)")
-        self.wkWebView = webView
-        self.addSubview(webView)
+        let webViewConfiguration = WKWebViewConfiguration.init()
+        let wkWebView = WKWebView.init(frame: self.bounds, configuration: webViewConfiguration)
+        wkWebView.isHidden = true
+        wkWebView.navigationDelegate = self
+        self.wkWebView = wkWebView
+        self.addSubview(wkWebView)
     }
     
     func updateURL() {
-        if let wkWebView = self.wkWebView {
-            wkWebView.stopLoading()
-            
-//            let urlString = "http://fakeupdate.net/win8/"
-//            let urlString = "http://globe.cid.harvard.edu/?mode=gridSphere&id=CN"
-//            let urlString = "http://stuffin.space/?intldes=2010-064A&search=china"
-            
-            let randomWeb = ManifestLoader.instance.randomWeb(excluding: [])
-            
-            guard let web = randomWeb else {
-                return
-            }
-            
-            self.currentWeb = web
-            
-            let url = URL(string: web.url)!
-            
-            let requ = URLRequest.init(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
-            if (url.scheme == "http" || url.scheme == "https") {
-                wkWebView.load(requ)
-            }
+        guard let wkWebView = self.wkWebView else {
+            return;
+        }
+        wkWebView.stopLoading()
+        
+        var currentWeb: HunterWeb?
+        if WebHuntView.sharingWebs {
+            currentWeb = WebHuntView.sharedWeb
+        } else {
+            currentWeb = ManifestLoader.instance.randomWeb(excluding: WebHuntView.webs)
+        }
+
+        guard let web = currentWeb else {
+            return
+        }
+        WebHuntView.webs.append(web)
+        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(web.url)")
+        let url = URL(string: web.url)!
+        
+        let requ = URLRequest.init(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
+        if (url.scheme == "http" || url.scheme == "https") {
+            wkWebView.load(requ)
         }
     }
     

@@ -12,7 +12,7 @@ enum Manifests: String {
     case Original = "hunt-original.json"
 }
 
-final class HunterWeb {
+class HunterWeb {
     let url: String
     let description: String
     let type: String
