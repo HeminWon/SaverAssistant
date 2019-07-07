@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Yams
 
 typealias ManifestLoadCallback = ([HunterWeb]) -> Void
 
@@ -18,12 +19,9 @@ class ManifestLoader {
     var exhibitionList = [HunterWeb]()
     var lastExhibitionFromExhibitionList: HunterWeb?
     
-    
-    var manifestWebData: Data?
-    
     init() {
         if areManifestsFilesLoaded() {
-            loadManifestsFromLoadedFiles()
+            loadCachedManifests()
         } else {
             if areManifestsCached() {
                 loadCachedManifests()
@@ -34,7 +32,7 @@ class ManifestLoader {
                     
                     var urls: [URL] = []
                 
-                    urls.append(URL(string: "https://raw.githubusercontent.com/HeminWon/SaverAssistant/master/WebHunt/Resources/hunt-original.json")!)
+                    urls.append(URL(string: "https://raw.githubusercontent.com/HeminWon/SaverAssistant/develop/WebHunt/Resources/hunt-original.yaml")!)
                     
                     let completion = BlockOperation {
                         // We can now load from the newly cached files
@@ -67,7 +65,7 @@ class ManifestLoader {
     
     // Check if the Manifests have been loaded in this class already
     func areManifestsFilesLoaded() -> Bool {
-        if manifestWebData != nil {
+        if loadedManifest.count > 0 {
             return true
         } else {
             return false
@@ -100,35 +98,15 @@ class ManifestLoader {
     func loadCachedManifests() {
         if let cacheDirectory = WebCache.cacheDirectory {
             var cacheFileUrl = URL(fileURLWithPath: cacheDirectory as String)
-            cacheFileUrl.appendPathComponent("hunt-original.json")
-            do {
-                let ndata = try Data(contentsOf: cacheFileUrl)
-                manifestWebData = ndata
-            } catch {
+            cacheFileUrl.appendPathComponent("hunt-original.yaml")
+            if let webs = readManifests(url: cacheFileUrl) {
+                loadedManifest += webs
             }
-            
-            if manifestWebData != nil {
-                loadManifestsFromLoadedFiles()
-            } else {
-                // No internet, no anything, nothing to do
-            }
-        }
-    }
-    
-    // Load Manifests from the saved preferences
-    func loadManifestsFromLoadedFiles() {
-        // Reset our array
-        guard let data = manifestWebData else {
-            return
-        }
         
-        var processedWebs = readManifestsConfig(data)!
-        
-        processedWebs = processedWebs.sorted { (HunterWeb0, HunterWeb1) -> Bool in
-            return HunterWeb0.url < HunterWeb1.url
+            loadedManifest = loadedManifest.sorted(by: { (HunterWeb0, HunterWeb1) -> Bool in
+                return HunterWeb0.url < HunterWeb1.url
+            })
         }
-        
-        self.loadedManifest = processedWebs
     }
     
     // MARK: - Playlist generation
@@ -182,9 +160,46 @@ class ManifestLoader {
         return batch
     }
     
+    func readYaml(_ url: URL) -> NSDictionary? {
+        let file = try? String(contentsOf: url)
+        
+        guard let yamlStr = file else {
+            return nil;
+        }
+        let batches = try? Yams.load(yaml: yamlStr) as? [String: Any]
+        
+        guard let batch = batches else {
+            return nil
+        }
+        return batch as NSDictionary
+    }
+    
     func readManifestsConfig(_ data: Data) -> [HunterWeb]? {
         if let batch = readJSONFromData(data) {
             let assets = batch["assets"] as! [NSDictionary]
+            var processedWebs = [HunterWeb]()
+            for item in assets {
+                let url = item["url"] as! String
+                let description = item["description"] as! String
+                let type = item["type"] as! String
+                
+                if !url.hasPrefix("http") {
+                    continue
+                }
+                let web = HunterWeb(url: url, description: description, type: type)
+                processedWebs.append(web)
+            }
+            return processedWebs
+        }
+        return nil
+    }
+    
+    func readManifests(url: URL) -> [HunterWeb]? {
+        if !FileManager.default.fileExists(atPath: url.path) {
+            return nil
+        }
+        if let batch = readYaml(url) {
+            guard let assets = batch["assets"] as? [NSDictionary] else { return nil }
             var processedWebs = [HunterWeb]()
             for item in assets {
                 let url = item["url"] as! String

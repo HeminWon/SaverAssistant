@@ -9,7 +9,7 @@
 import Foundation
 
 enum Manifests: String {
-    case Original = "hunt-original.json"
+    case Original = "hunt-original.yaml"
 }
 
 class HunterWeb {
