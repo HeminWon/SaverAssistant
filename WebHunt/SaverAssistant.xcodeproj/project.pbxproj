@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		A46A549C22A3EE0600E86E35 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A46A549B22A3EE0600E86E35 /* Preferences.storyboard */; };
 		A46A549F22A3FB7000E86E35 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A549E22A3FB7000E86E35 /* PreferencesWindow.swift */; };
 		A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A54A022A420B500E86E35 /* WHContainerViewController.swift */; };
+		A483E4DB22D211CC001966A3 /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = A483E4DA22D211CC001966A3 /* Yams */; };
 		A49B1BDB22BF907000872E5C /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BDA22BF907000872E5C /* Preferences.swift */; };
 		A49B1BDF22BFC0D700872E5C /* LogMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BDE22BFC0D700872E5C /* LogMessage.swift */; };
 		A49B1BE622BFCE4800872E5C /* HTAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BE422BFCE4800872E5C /* HTAdvancedViewController.swift */; };
@@ -95,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A483E4DB22D211CC001966A3 /* Yams in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +261,9 @@
 			dependencies = (
 			);
 			name = WebHunt;
+			packageProductDependencies = (
+				A483E4DA22D211CC001966A3 /* Yams */,
+			);
 			productName = WebHunt;
 			productReference = A45DC0CE22A2DA17001A1447 /* WebHunt.saver */;
 			productType = "com.apple.product-type.bundle";
@@ -295,6 +300,9 @@
 				Base,
 			);
 			mainGroup = 0095C5BD1F22F08E001CB8AD;
+			packageReferences = (
+				A483E4D922D211CC001966A3 /* XCRemoteSwiftPackageReference "Yams" */,
+			);
 			productRefGroup = 0095C5C81F22F08E001CB8AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -484,7 +492,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Runner/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.heminwon.io.Runner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -500,10 +511,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Runner/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.heminwon.io.Runner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -522,7 +537,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = WebHunt/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -548,7 +567,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = WebHunt/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heminwon.io.WebHunt;
@@ -589,6 +612,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A483E4D922D211CC001966A3 /* XCRemoteSwiftPackageReference "Yams" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jpsim/Yams.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A483E4DA22D211CC001966A3 /* Yams */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A483E4D922D211CC001966A3 /* XCRemoteSwiftPackageReference "Yams" */;
+			productName = Yams;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0095C5BE1F22F08E001CB8AD /* Project object */;
 }
