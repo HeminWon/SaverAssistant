@@ -109,6 +109,28 @@ class ManifestLoader {
         }
     }
     
+    // MARK: - Subscribe
+    func subscribeWebs(url: URL) {
+        
+        let downloadManager = DownloadManager()
+        let completion = BlockOperation {
+            self.loadCachedManifests()
+        }
+        let operation = downloadManager.queueDownload(url)
+        completion.addDependency(operation)
+        OperationQueue.main.addOperation(completion)
+        
+        let cacheDirectory = WebCache.cacheDirectory!
+        if !FileManager.default.fileExists(atPath: cacheDirectory.appending("webHunt.yaml")) {
+            let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("webHunt.yaml"))
+            do {
+                try FileManager.default.createFile(atPath: webHuntURL.path, contents: nil, attributes: nil)
+            } catch {
+                errorLog("\(error)")
+            }
+        }
+    }
+    
     // MARK: - Playlist generation
     func generateExhibitionList() {
         exhibitionList = [HunterWeb]()

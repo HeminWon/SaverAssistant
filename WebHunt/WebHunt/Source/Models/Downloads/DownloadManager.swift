@@ -111,14 +111,26 @@ extension DownloadOperation: URLSessionDownloadDelegate {
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         do {
-            let manager = FileManager.default
-            var destinationURL = URL(fileURLWithPath: WebCache.cacheDirectory!)
+            var cacheDirectory = WebCache.cacheDirectory!
+            cacheDirectory.append(contentsOf: "/subscribe/")
+            
+            var destinationURL = URL(fileURLWithPath: cacheDirectory)
+            if !FileManager.default.fileExists(atPath: destinationURL.path) {
+                do {
+                    try FileManager.default.createDirectory(atPath: destinationURL.path, withIntermediateDirectories: true, attributes: nil)
+                    debugLog("creating dir \(destinationURL.path)")
+                } catch {
+                    errorLog("\(error.localizedDescription)")
+                }
+            }
 
             destinationURL.appendPathComponent(downloadTask.originalRequest!.url!.lastPathComponent)
             
+            let manager = FileManager.default
             try? manager.removeItem(at: destinationURL)
             try manager.moveItem(at: location, to: destinationURL)
         } catch {
+            errorLog("\(error)")
         }
     }
     

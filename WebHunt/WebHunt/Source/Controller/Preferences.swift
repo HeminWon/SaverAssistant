@@ -44,10 +44,21 @@ final class Preferences {
     }
     
     init() {
-//        registerDefaultValues()
-        self.debugMode = true
-        self.logToDisk = true
-        self.multiMonitorMode = MultiMonitorMode.mirrored.rawValue
+        registerDefaultValues()
+    }
+    
+    func registerDefaultValues() {
+        var defaultValues = [Identifiers: Any]()
+        defaultValues[.debugMode] = false
+        defaultValues[.logToDisk] = true
+        defaultValues[.multiMonitorMode] = MultiMonitorMode.mainOnly
+        
+        let defaults = defaultValues.reduce([String: Any]()) { (result, pair:(key: Identifiers, value: Any)) -> [String: Any] in
+            var mutable = result
+            mutable[pair.key.rawValue] = pair.value
+            return mutable
+        }
+        userDefaults.register(defaults: defaults)
     }
     
     var debugMode: Bool {
