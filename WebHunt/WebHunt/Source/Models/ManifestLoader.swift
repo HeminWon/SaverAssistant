@@ -9,6 +9,27 @@
 import Foundation
 import Yams
 
+extension Array where Element:Hashable {
+    var unique:[Element] {
+        var uniq = Set<Element>()
+        uniq.reserveCapacity(self.count)
+        return self.filter {
+            return uniq.insert($0).inserted
+        }
+    }
+    
+    func filter<E: Equatable>(_ unique: (Element) -> E) -> [Element] {
+        var result = [Element]()
+        for value in self {
+            let key = unique(value)
+            if !result.map({unique($0)}).contains(key) {
+                result.append(value)
+            }
+        }
+        return result
+    }
+}
+
 typealias ManifestLoadCallback = ([HunterWeb]) -> Void
 
 class ManifestLoader {
@@ -27,25 +48,15 @@ class ManifestLoader {
                 loadCachedManifests()
             } else {
                 if !isManifestCached(manifest: .Original) {
-                
-                    let downloadManager = DownloadManager()
                     
                     var urls: [URL] = []
                 
                     urls.append(URL(string: "https://raw.githubusercontent.com/HeminWon/SaverAssistant/develop/WebHunt/Resources/hunt-original.yaml")!)
-                    
-                    let completion = BlockOperation {
-                        // We can now load from the newly cached files
-                        self.loadCachedManifests()
-                        
-                    }
-                    
+
                     for url in urls {
-                        let operation = downloadManager.queueDownload(url)
-                        completion.addDependency(operation)
+                        subscribeWebs(url: url)
                     }
-                    
-                    OperationQueue.main.addOperation(completion)
+        
                 }
                 
             }
@@ -120,14 +131,34 @@ class ManifestLoader {
         completion.addDependency(operation)
         OperationQueue.main.addOperation(completion)
         
+        let fileManager = FileManager.default
+        
         let cacheDirectory = WebCache.cacheDirectory!
-        if !FileManager.default.fileExists(atPath: cacheDirectory.appending("webHunt.yaml")) {
-            let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("webHunt.yaml"))
-            do {
-                try FileManager.default.createFile(atPath: webHuntURL.path, contents: nil, attributes: nil)
-            } catch {
-                errorLog("\(error)")
+        if !fileManager.fileExists(atPath: cacheDirectory.appending("/webHunt.yaml")) {
+            let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/webHunt.yaml"))
+            fileManager.createFile(atPath: webHuntURL.path, contents: nil, attributes: nil)
+        }
+        
+        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/webHunt.yaml"))
+        do {
+            let file = try String(contentsOf: webHuntURL)
+            let webHunt = try Yams.compose(yaml: file)
+            if var node = webHunt {
+                var map = node.mapping!
+                guard var configs = map["configs" as Node] else {
+                    return
+                }
+                let ele : Node = ["url": try Node(url), "remarks": "node"]
+                configs.sequence?.append(ele)
+                configs.sequence = Node.Sequence(configs.array().unique.filter({$0.mapping?["url" as Node]}))
+                map[String("configs")] = configs
+                node.mapping = map
+                
+                let yaml = try Yams.dump(object:node, allowUnicode: true)
+                try yaml.write(to: webHuntURL, atomically: true, encoding: String.Encoding.utf8)
             }
+        } catch {
+            errorLog("\(error)")
         }
     }
     
