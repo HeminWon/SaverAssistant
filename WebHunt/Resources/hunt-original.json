@@ -4,17 +4,23 @@
         {
             "group": "fakeupdate",
             "url": "http://fakeupdate.net/windows98/",
-            "remark": "windows 98"
+            "remark": "windows 98",
+            "timeInterval": 20,
+            "timeExhibition": 300
         },
         {
             "group": "fakeupdate",
             "url": "http://fakeupdate.net/xp/",
-            "remark": "windows xp"
+            "remark": "windows xp",
+            "timeInterval": 1,
+            "timeExhibition": 1
         },
         {
             "group": "fakeupdate",
             "url": "http://fakeupdate.net/vista/",
-            "remark": "vista"
+            "remark": "vista",
+            "timeInterval": 0,
+            "timeExhibition": 0
         },
         {
             "group": "fakeupdate",
@@ -24,7 +30,9 @@
         {
             "group": "fakeupdate",
             "url": "http://fakeupdate.net/win7/",
-            "remark": ""
+            "remark": "",
+            "timeInterval": 20,
+            "timeExhibition": 300
         },
         {
             "group": "fakeupdate",
@@ -34,22 +42,30 @@
         {
             "group": "fakeupdate",
             "url": "http://fakeupdate.net/win10/",
-            "remark": ""
+            "remark": "",
+            "timeInterval": 20,
+            "timeExhibition": 300
         },
         {
             "group": "fakeupdate",
             "url": "http://fakeupdate.net/win10u/",
-            "remark": ""
+            "remark": "",
+            "timeInterval": 20,
+            "timeExhibition": 300
         },
         {
             "group": "fakeupdate",
             "url": "http://fakeupdate.net/steam/",
-            "remark": ""
+            "remark": "",
+            "timeInterval": 5,
+            "timeExhibition": 20
         },
         {
             "group": "fakeupdate",
             "url": "http://fakeupdate.net/wnc/",
-            "remark": ""
+            "remark": "",
+            "timeInterval": 10,
+            "timeExhibition": 30
         },
         {
             "group": "funny",
