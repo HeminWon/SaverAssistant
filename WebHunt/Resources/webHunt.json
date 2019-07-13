@@ -1,12 +1,12 @@
 {
-    "configs": [
+    "subscribes": [
         {
             "url": "https://www.baidu.com",
-            "remarks": "测试"
+            "reamrk": "测试"
         },
         {
             "url": "https://www.test.com",
-            "remarks": "test"
+            "reamrk": "test"
         }
     ]
 }

@@ -1,85 +1,65 @@
 {
     "version": "0.0.1",
-    "assets": [
+    "webProfiles": [
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/windows98/",
-            "description": "windows 98"
+            "remark": "windows 98"
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/xp/",
-            "description": "windows xp"
+            "remark": "windows xp"
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/vista/",
-            "description": "vista"
+            "remark": "vista"
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/win8/",
-            "description": "windows 8"
+            "remark": "windows 8"
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/win7/",
-            "description": ""
+            "remark": ""
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/apple/",
-            "description": ""
+            "remark": ""
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/win10/",
-            "description": ""
+            "remark": ""
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/win10u/",
-            "description": ""
+            "remark": ""
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/steam/",
-            "description": ""
+            "remark": ""
         },
         {
-            "type": "fakeupdate",
+            "group": "fakeupdate",
             "url": "http://fakeupdate.net/wnc/",
-            "description": ""
+            "remark": ""
         },
         {
-            "type": "funny",
+            "group": "funny",
             "url": "http://www.windows93.net/",
-            "description": ""
+            "remark": ""
         },
         {
-            "type": "",
-            "url": "http://geektyper.com/matrix/",
-            "description": ""
-        },
-        {
-            "type": "",
-            "url": "",
-            "description": ""
-        },
-        {
-            "type": "",
-            "url": "",
-            "description": ""
-        },
-        {
-            "type": "",
-            "url": "",
-            "description": ""
-        },
-        {
-            "type": "",
-            "url": "",
-            "description": ""
+            "group": "",
+            "url": "http://geekgroupr.com/matrix/",
+            "remark": ""
         }
     ]
 }
