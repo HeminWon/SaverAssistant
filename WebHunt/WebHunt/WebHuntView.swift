@@ -9,9 +9,7 @@
 import ScreenSaver
 import WebKit
 
-class WebHuntView: ScreenSaverView, WKNavigationDelegate {
-
-    var wkWebView: WKWebView?
+class WebHuntView: ScreenSaverView {
     
     var preferencesWindowController: PreferencesWindowController?
     
@@ -39,6 +37,11 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         }
         return Static.web
     }
+    
+    lazy var webViewController: WHWebViewController = {
+        let webViewController = WHWebViewController()
+        return webViewController
+    }()
     
     // MARK: init
     override init?(frame: NSRect, isPreview: Bool) {
@@ -86,22 +89,12 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     }
     
     func setupWebView() {
-        if let webView = self.wkWebView {
-            debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(webView)")
-            return;
-        }
-        let webViewConfiguration = WKWebViewConfiguration.init()
-        let wkWebView = WKWebView.init(frame: self.bounds, configuration: webViewConfiguration)
-        wkWebView.isHidden = true
-        wkWebView.navigationDelegate = self
-        self.wkWebView = wkWebView
-        self.addSubview(wkWebView)
+        self.webViewController.webVIew.frame = self.bounds
+        self.addSubview(self.webViewController.webVIew)
     }
     
     func updateURL() {
-        guard let wkWebView = self.wkWebView else {
-            return;
-        }
+        let wkWebView = self.webViewController.webVIew
         wkWebView.stopLoading()
         
         var currentWeb: HunterWeb?
@@ -122,12 +115,6 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
         if (url.scheme == "http" || url.scheme == "https") {
             wkWebView.load(requ)
         }
-    }
-    
-    // MARK: delegate WKNavigationDelegate
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.isHidden = false
-        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(webView) \(webView.frame) \(webView.isHidden)")
     }
     
     override var hasConfigureSheet: Bool {

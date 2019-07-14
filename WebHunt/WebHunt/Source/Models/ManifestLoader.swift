@@ -355,7 +355,12 @@ class ManifestLoader {
                 }
                 let remark = item["remark"] as? String
                 let group = item["group"] as? String
+                let timeInterval = item["timeInterval"] as? Int
+                let timeExhibition = item["timeExhibition"] as? Int
+                
                 let web = HunterWeb(url: url, remark: remark, group: group)
+                web.timeInterval = timeInterval ?? 0
+                web.timeExhibition = timeExhibition ?? 0
                 processedWebs.append(web)
             }
             return processedWebs

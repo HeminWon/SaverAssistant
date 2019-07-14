@@ -24,6 +24,7 @@
 		A49F54A722AA43ED00022A59 /* WebCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A622AA43ED00022A59 /* WebCache.swift */; };
 		A49F54AA22AA688500022A59 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A922AA688500022A59 /* DownloadManager.swift */; };
 		A49F54AC22AA6A0900022A59 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54AB22AA6A0900022A59 /* AsynchronousOperation.swift */; };
+		A4A6B94122DB5DC1002536D6 /* WHWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A6B94022DB5DC1002536D6 /* WHWebViewController.swift */; };
 		A4B46CBA22B92A22007FB19C /* CheckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B46CB922B92A22007FB19C /* CheckCellView.swift */; };
 		A4C48167229A51B60060F891 /* MEMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48160229A51B50060F891 /* MEMView.swift */; };
 		A4C48168229A51B60060F891 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48161229A51B50060F891 /* AppDelegate.swift */; };
@@ -76,6 +77,7 @@
 		A49F54A622AA43ED00022A59 /* WebCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCache.swift; sourceTree = "<group>"; };
 		A49F54A922AA688500022A59 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		A49F54AB22AA6A0900022A59 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
+		A4A6B94022DB5DC1002536D6 /* WHWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHWebViewController.swift; sourceTree = "<group>"; };
 		A4B46CB922B92A22007FB19C /* CheckCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCellView.swift; sourceTree = "<group>"; };
 		A4C4815E229A51B50060F891 /* Runner.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A4C4815F229A51B50060F891 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				A49B1BE422BFCE4800872E5C /* HTAdvancedViewController.swift */,
 				A43EFA2B22D4D5C0008AEE03 /* WHWebManagerController.swift */,
 				A43EFA2C22D4D5C0008AEE03 /* WHWebManagerController.xib */,
+				A4A6B94022DB5DC1002536D6 /* WHWebViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A46A549822A3ED5000E86E35 /* WebHuntView.swift in Sources */,
+				A4A6B94122DB5DC1002536D6 /* WHWebViewController.swift in Sources */,
 				A49F54A422AA25AD00022A59 /* HunterWeb.swift in Sources */,
 				A49B1BE622BFCE4800872E5C /* HTAdvancedViewController.swift in Sources */,
 				A49B1BDB22BF907000872E5C /* Preferences.swift in Sources */,
