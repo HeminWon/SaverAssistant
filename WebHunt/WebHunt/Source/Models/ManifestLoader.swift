@@ -190,21 +190,41 @@ class ManifestLoader {
         let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/webHunt.yaml"))
         do {
             let file = try String(contentsOf: webHuntURL)
-            let webHunt = try Yams.compose(yaml: file)
-            if var node = webHunt {
-                var map = node.mapping!
-                guard var configs = map["subscribes" as Node] else {
-                    return
-                }
-                let ele : Node = [Node("url"): try Node(url), Node("remark"): Node(remark)]
-                configs.sequence?.append(ele)
-                configs.sequence = Node.Sequence(configs.array().unique.filter({$0.mapping?["url" as Node]}).filter({($0.mapping?["remark"]?.string) != nil}).filter({($0.mapping?["url"]?.string) != nil}))
-                map[String("subscribes")] = configs
-                node.mapping = map
-                
-                let yaml = try Yams.dump(object:node, allowUnicode: true)
-                try yaml.write(to: webHuntURL, atomically: true, encoding: String.Encoding.utf8)
+            let ele : Node = [Node("url"): try Node(url), Node("remark"): Node(remark)]
+            guard var node = try Yams.compose(yaml: file) else {
+                let node0 = [Node("subscribes"): [ele]]
+                saveWebHunt(node0)
+                return
             }
+            guard var map = node.mapping else {
+                node.mapping = [Node("subscribes"): [ele]]
+                saveWebHunt(node)
+                return
+            }
+            guard var subscribes = map["subscribes" as Node] else {
+                map[String("subscribes")] = [ele]
+                node.mapping = map
+                saveWebHunt(node)
+                return
+            }
+            subscribes.sequence?.append(ele)
+            subscribes.sequence = Node.Sequence(subscribes.array().unique.filter({$0.mapping?["url" as Node]}).filter({($0.mapping?["remark"]?.string) != nil}).filter({($0.mapping?["url"]?.string) != nil}))
+            map[String("subscribes")] = subscribes
+            node.mapping = map
+            
+            let yaml = try Yams.dump(object:node, allowUnicode: true)
+            try yaml.write(to: webHuntURL, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            errorLog("\(error)")
+        }
+    }
+    
+    func saveWebHunt(_ object: Any?) {
+        let cacheDirectory = WebCache.cacheDirectory!
+        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/webHunt.yaml"))
+        do {
+            let yaml = try Yams.dump(object:object, allowUnicode: true)
+            try yaml.write(to: webHuntURL, atomically: true, encoding: String.Encoding.utf8)
         } catch {
             errorLog("\(error)")
         }
