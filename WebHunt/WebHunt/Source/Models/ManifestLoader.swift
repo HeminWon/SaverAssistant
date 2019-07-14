@@ -35,6 +35,7 @@ typealias ManifestLoadCallback = ([HunterWeb]) -> Void
 class ManifestLoader {
     static let instance: ManifestLoader = ManifestLoader()
     
+    var callbacks = [ManifestLoadCallback]()
     var loadedManifest = [HunterWeb]()
     
     var exhibitionList = [HunterWeb]()
@@ -47,18 +48,13 @@ class ManifestLoader {
             if areManifestsCached() {
                 loadCachedManifests()
             } else {
-                if !isManifestCached(manifest: .Original) {
-                    
-                    var urls: [URL] = []
-                
-                    urls.append(URL(string: "https://raw.githubusercontent.com/HeminWon/SaverAssistant/develop/WebHunt/Resources/hunt-original.yaml")!)
-
-                    for url in urls {
-                        subscribeWebs(url: url)
+                if let subscribes = webHuntsubscribe() {
+                    for subscribe in subscribes {
+                        subscribeWebs(url: subscribe.url, remark: subscribe.remark)
                     }
-        
+                } else {
+                    subscribeWebs(url: URL(string: "https://raw.githubusercontent.com/HeminWon/SaverAssistant/develop/WebHunt/Resources/hunt-original.yaml")!, remark: "hunter")
                 }
-                
             }
         }
         
@@ -68,7 +64,7 @@ class ManifestLoader {
         if !loadedManifest.isEmpty {
             callback(loadedManifest)
         } else {
-//            callbacks.append(callback)
+            callbacks.append(callback)
         }
     }
     
@@ -85,15 +81,19 @@ class ManifestLoader {
     
     // Check if the Manifests are saved in our cache directory
     func areManifestsCached() -> Bool {
-        return isManifestCached(manifest: .Original)
+        var cacheDirectory = WebCache.cacheDirectory!
+        cacheDirectory.append(contentsOf: "/subscribe/")
+        let urls = try? FileManager.default.contentsOfDirectory(atPath: cacheDirectory)
+        
+        return (urls != nil) ? true : false
     }
 
-    func isManifestCached(manifest: Manifests) -> Bool {
+    func isManifestCached(manifest: String) -> Bool {
         if let cacheDirectory = WebCache.cacheDirectory {
             let fileManager = FileManager.default
             
             var cacheResourcesString = cacheDirectory
-            cacheResourcesString.append(contentsOf: "/" + manifest.rawValue)
+            cacheResourcesString.append(contentsOf: "/" + manifest)
             
             if !fileManager.fileExists(atPath: cacheResourcesString) {
                 return false
@@ -105,23 +105,55 @@ class ManifestLoader {
         return true
     }
     
+    func webHuntsubscribe() -> [Subscriber]? {
+        if let cacheDirectory = WebCache.cacheDirectory {
+            let fileManager = FileManager.default
+            
+            var cacheResourcesString = cacheDirectory
+            cacheResourcesString.append(contentsOf: "/" + "webHunt.yaml")
+            
+            if !fileManager.fileExists(atPath: cacheResourcesString) {
+                return nil
+            }
+            
+            let fileURL = URL(fileURLWithPath: cacheResourcesString)
+            let subscrbes = readSubsribes(url: fileURL)
+            return subscrbes
+        }
+        return nil
+    }
+    
+    
     // Load the JSON Data cached on disk
     func loadCachedManifests() {
-        if let cacheDirectory = WebCache.cacheDirectory {
-            var cacheFileUrl = URL(fileURLWithPath: cacheDirectory as String)
-            cacheFileUrl.appendPathComponent("hunt-original.yaml")
-            if let webs = readManifests(url: cacheFileUrl) {
-                loadedManifest += webs
+        if var cacheDirectory = WebCache.cacheDirectory {
+            cacheDirectory.append(contentsOf: "/subscribe/")
+            if FileManager.default.fileExists(atPath: cacheDirectory) {
+                do {
+                    let urls = try FileManager.default.contentsOfDirectory(atPath: cacheDirectory)
+                    for url in urls {
+                        let file = cacheDirectory.appending(url)
+                        if let webs = readManifests(url: URL(fileURLWithPath: file)) {
+                            loadedManifest += webs
+                        }
+                    }
+                    loadedManifest = loadedManifest.sorted(by: { (HunterWeb0, HunterWeb1) -> Bool in
+                        return HunterWeb0.url < HunterWeb1.url
+                    })
+                } catch {
+                    
+                }
+                for callback in self.callbacks {
+                    callback(self.loadedManifest)
+                }
+                self.callbacks.removeAll()
+                
             }
-        
-            loadedManifest = loadedManifest.sorted(by: { (HunterWeb0, HunterWeb1) -> Bool in
-                return HunterWeb0.url < HunterWeb1.url
-            })
         }
     }
     
     // MARK: - Subscribe
-    func subscribeWebs(url: URL) {
+    func subscribeWebs(url: URL, remark: String) {
         
         let downloadManager = DownloadManager()
         let completion = BlockOperation {
@@ -145,13 +177,13 @@ class ManifestLoader {
             let webHunt = try Yams.compose(yaml: file)
             if var node = webHunt {
                 var map = node.mapping!
-                guard var configs = map["configs" as Node] else {
+                guard var configs = map["subscribes" as Node] else {
                     return
                 }
-                let ele : Node = ["url": try Node(url), "remarks": "node"]
+                let ele : Node = ["url": try Node(url), "remark": Node(remark)]
                 configs.sequence?.append(ele)
                 configs.sequence = Node.Sequence(configs.array().unique.filter({$0.mapping?["url" as Node]}))
-                map[String("configs")] = configs
+                map[String("subscribes")] = configs
                 node.mapping = map
                 
                 let yaml = try Yams.dump(object:node, allowUnicode: true)
@@ -227,22 +259,26 @@ class ManifestLoader {
         return batch as NSDictionary
     }
     
-    func readManifestsConfig(_ data: Data) -> [HunterWeb]? {
-        if let batch = readJSONFromData(data) {
-            let assets = batch["assets"] as! [NSDictionary]
-            var processedWebs = [HunterWeb]()
+    func readSubsribes(url: URL) -> [Subscriber]? {
+        if !FileManager.default.fileExists(atPath: url.path) {
+            return nil
+        }
+        if let batch = readYaml(url) {
+            guard let assets = batch["webProfiles"] as? [NSDictionary] else { return nil }
+            var subscribes = [Subscriber]()
             for item in assets {
-                let url = item["url"] as! String
-                let description = item["description"] as! String
-                let type = item["type"] as! String
-                
-                if !url.hasPrefix("http") {
+                guard let url = item["url"] as? String else {
                     continue
                 }
-                let web = HunterWeb(url: url, description: description, type: type)
-                processedWebs.append(web)
+                guard let remark = item["remark"] as? String else {
+                    continue
+                }
+                if let subURL = URL(string: url) {
+                    let sub = Subscriber(url: subURL, remark: remark)
+                    subscribes.append(sub)
+                }
             }
-            return processedWebs
+            return subscribes
         }
         return nil
     }
@@ -252,17 +288,15 @@ class ManifestLoader {
             return nil
         }
         if let batch = readYaml(url) {
-            guard let assets = batch["assets"] as? [NSDictionary] else { return nil }
+            guard let assets = batch["webProfiles"] as? [NSDictionary] else { return nil }
             var processedWebs = [HunterWeb]()
             for item in assets {
-                let url = item["url"] as! String
-                let description = item["description"] as! String
-                let type = item["type"] as! String
-                
-                if !url.hasPrefix("http") {
+                guard let url = item["url"] as? String else {
                     continue
                 }
-                let web = HunterWeb(url: url, description: description, type: type)
+                let remark = item["remark"] as? String
+                let group = item["group"] as? String
+                let web = HunterWeb(url: url, remark: remark, group: group)
                 processedWebs.append(web)
             }
             return processedWebs

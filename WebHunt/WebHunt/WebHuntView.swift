@@ -26,7 +26,7 @@ class WebHuntView: ScreenSaverView, WKNavigationDelegate {
     
     class var sharedWeb: HunterWeb {
         struct Static {
-            static let instance: HunterWeb = HunterWeb(url: "", description: "", type: "")
+            static let instance: HunterWeb = HunterWeb(url: "", remark: "", group: "")
             static var _web: HunterWeb?
             static var web: HunterWeb {
                 if let activeWeb = _web {

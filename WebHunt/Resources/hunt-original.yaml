@@ -1,39 +1,55 @@
 ---
 version: 0.0.1
-assets:
-- type: fakeupdate
+webProfiles:
+- group: fakeupdate
   url: http://fakeupdate.net/windows98/
-  description: windows 98
-- type: fakeupdate
+  remark: windows 98
+  timeInterval: 20
+  timeExhibition: 300
+- group: fakeupdate
   url: http://fakeupdate.net/xp/
-  description: windows xp
-- type: fakeupdate
+  remark: windows xp
+  timeInterval: 1
+  timeExhibition: 1
+- group: fakeupdate
   url: http://fakeupdate.net/vista/
-  description: vista
-- type: fakeupdate
+  remark: vista
+  timeInterval: 0
+  timeExhibition: 0
+- group: fakeupdate
   url: http://fakeupdate.net/win8/
-  description: windows 8
-- type: fakeupdate
+  remark: windows 8
+- group: fakeupdate
   url: http://fakeupdate.net/win7/
-  description: ''
-- type: fakeupdate
+  remark: ''
+  timeInterval: 20
+  timeExhibition: 300
+- group: fakeupdate
   url: http://fakeupdate.net/apple/
-  description: ''
-- type: fakeupdate
+  remark: ''
+- group: fakeupdate
   url: http://fakeupdate.net/win10/
-  description: ''
-- type: fakeupdate
+  remark: ''
+  timeInterval: 20
+  timeExhibition: 300
+- group: fakeupdate
   url: http://fakeupdate.net/win10u/
-  description: ''
-- type: fakeupdate
+  remark: ''
+  timeInterval: 20
+  timeExhibition: 300
+- group: fakeupdate
   url: http://fakeupdate.net/steam/
-  description: ''
-- type: fakeupdate
+  remark: ''
+  timeInterval: 5
+  timeExhibition: 20
+- group: fakeupdate
   url: http://fakeupdate.net/wnc/
-  description: ''
-- type: funny
+  remark: ''
+  timeInterval: 10
+  timeExhibition: 30
+- group: funny
   url: http://www.windows93.net/
-  description: ''
-- type: ''
-  url: http://geektyper.com/matrix/
-  description: ''
+  remark: ''
+- group: ''
+  url: http://geekgroupr.com/matrix/
+  remark: ''

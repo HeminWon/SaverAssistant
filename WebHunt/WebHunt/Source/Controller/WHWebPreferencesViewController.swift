@@ -64,7 +64,7 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
         var categories = [String: Category]()
         
         for web in manifestWebs {
-            let type = web.type
+            let type = web.group!
             if categories.keys.contains(type) == false {
                 categories[type] = Category(type: type)
             }
@@ -123,7 +123,7 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
         case let category as Category:
             return category.type
         case let web as HunterWeb:
-            return web.description
+            return web.url
         default:
             return "untitled"
         }
@@ -159,7 +159,7 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
             let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CheckCell"),
                                             owner: nil) as! NSTableCellView
             // Mark the new view for this video for subsequent callbacks
-            view.textField?.stringValue = web.description.isEmpty ? web.url : web.description
+            view.textField?.stringValue = web.url
             
             return view
         default:
@@ -169,7 +169,7 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
     
     func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
         switch item {
-        case let _ as HunterWeb:
+        case _ as HunterWeb:
             return true
         default:
             return false

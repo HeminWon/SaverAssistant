@@ -8,18 +8,25 @@
 
 import Foundation
 
-enum Manifests: String {
-    case Original = "hunt-original.yaml"
+class Subscriber {
+    let url: URL
+    let remark: String
+    
+    init(url: URL, remark: String) {
+        self.url = url
+        self.remark = remark
+    }
+    
 }
 
 class HunterWeb {
     let url: String
-    let description: String
-    let type: String
+    let remark: String?
+    let group: String?
     
-    init(url: String, description: String, type: String) {
+    init(url: String, remark: String?, group: String?) {
         self.url = url
-        self.description = description
-        self.type = type
+        self.remark = remark
+        self.group = group
     }
 }
