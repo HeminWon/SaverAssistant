@@ -30,6 +30,18 @@ extension Array where Element:Hashable {
     }
 }
 
+extension URL {
+    var isYaml: Bool {
+        get {
+            let fileExt = self.pathExtension
+            if fileExt == "yaml" || fileExt == "yml" {
+                return true
+            }
+            return false
+        }
+    }
+}
+
 typealias ManifestLoadCallback = ([HunterWeb]) -> Void
 
 class ManifestLoader {
@@ -86,8 +98,8 @@ class ManifestLoader {
         do {
             let urls = try FileManager.default.contentsOfDirectory(atPath: cacheDirectory)
             let legalfiles = urls.filter({ (url) -> Bool in
-                if let fileExt = NSURL(fileURLWithPath: url).pathExtension{
-                    if fileExt == "yaml" || fileExt == "yml" {
+                if let file = URL(string: url) {
+                    if file.isYaml {
                         return true
                     }
                 }
@@ -148,9 +160,11 @@ class ManifestLoader {
                 do {
                     let urls = try FileManager.default.contentsOfDirectory(atPath: cacheDirectory)
                     for url in urls {
-                        let file = cacheDirectory.appending(url)
-                        if let webs = readManifests(url: URL(fileURLWithPath: file)) {
-                            loadedManifest += webs
+                        let file = URL(fileURLWithPath: cacheDirectory.appending(url))
+                        if file.isYaml {
+                            if let webs = readManifests(url: file) {
+                                loadedManifest += webs
+                            }
                         }
                     }
                     loadedManifest = loadedManifest.sorted(by: { (HunterWeb0, HunterWeb1) -> Bool in
@@ -170,6 +184,10 @@ class ManifestLoader {
     
     // MARK: - Subscribe
     func subscribeWebs(url: URL, remark: String) {
+        if !url.isYaml {
+            errorLog("need yaml file url")
+            return
+        }
         
         let downloadManager = DownloadManager()
         let completion = BlockOperation {
@@ -282,6 +300,11 @@ class ManifestLoader {
     }
     
     func readYaml(_ url: URL) -> NSDictionary? {
+        if !url.isFileURL {
+            errorLog("need yaml file")
+            return nil
+        }
+        
         let file = try? String(contentsOf: url)
         
         guard let yamlStr = file else {
