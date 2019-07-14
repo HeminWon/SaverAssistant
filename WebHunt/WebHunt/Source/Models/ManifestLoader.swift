@@ -83,9 +83,20 @@ class ManifestLoader {
     func areManifestsCached() -> Bool {
         var cacheDirectory = WebCache.cacheDirectory!
         cacheDirectory.append(contentsOf: "/subscribe/")
-        let urls = try? FileManager.default.contentsOfDirectory(atPath: cacheDirectory)
-        
-        return (urls != nil) ? true : false
+        do {
+            let urls = try FileManager.default.contentsOfDirectory(atPath: cacheDirectory)
+            let legalfiles = urls.filter({ (url) -> Bool in
+                if let fileExt = NSURL(fileURLWithPath: url).pathExtension{
+                    if fileExt == "yaml" || fileExt == "yml" {
+                        return true
+                    }
+                }
+                return false
+            })
+            return (legalfiles.isEmpty) ? false : true
+        } catch {
+        }
+        return false
     }
 
     func isManifestCached(manifest: String) -> Bool {
@@ -117,7 +128,12 @@ class ManifestLoader {
             }
             
             let fileURL = URL(fileURLWithPath: cacheResourcesString)
-            let subscrbes = readSubsribes(url: fileURL)
+            guard let subscrbes = readSubsribes(url: fileURL) else {
+                return nil
+            }
+            if subscrbes.isEmpty {
+                return nil
+            }
             return subscrbes
         }
         return nil
@@ -180,9 +196,9 @@ class ManifestLoader {
                 guard var configs = map["subscribes" as Node] else {
                     return
                 }
-                let ele : Node = ["url": try Node(url), "remark": Node(remark)]
+                let ele : Node = [Node("url"): try Node(url), Node("remark"): Node(remark)]
                 configs.sequence?.append(ele)
-                configs.sequence = Node.Sequence(configs.array().unique.filter({$0.mapping?["url" as Node]}))
+                configs.sequence = Node.Sequence(configs.array().unique.filter({$0.mapping?["url" as Node]}).filter({($0.mapping?["remark"]?.string) != nil}).filter({($0.mapping?["url"]?.string) != nil}))
                 map[String("subscribes")] = configs
                 node.mapping = map
                 
@@ -264,7 +280,7 @@ class ManifestLoader {
             return nil
         }
         if let batch = readYaml(url) {
-            guard let assets = batch["webProfiles"] as? [NSDictionary] else { return nil }
+            guard let assets = batch["subscribes"] as? [NSDictionary] else { return nil }
             var subscribes = [Subscriber]()
             for item in assets {
                 guard let url = item["url"] as? String else {
