@@ -12,6 +12,7 @@ import WebKit
 class WebHuntView: ScreenSaverView {
     
     var preferencesWindowController: PreferencesWindowController?
+    var intervalTimer: Timer = Timer()
     
     static var webs: [HunterWeb] = [HunterWeb]()
     
@@ -107,13 +108,30 @@ class WebHuntView: ScreenSaverView {
         guard let web = currentWeb else {
             return
         }
+        debugLog("timeExhibition: \(web.timeInterval) \(web.timeExhibition) \(web.url)")
+        if web.timeExhibition > 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(web.timeExhibition)) {
+                debugLog("timeExhibition: >>> \(web.url)")
+                self.updateURL()
+            }
+        }
+        
         WebHuntView.webs.append(web)
         debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(web.url)")
         let url = URL(string: web.url)!
         
         let requ = URLRequest.init(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
         if (url.scheme == "http" || url.scheme == "https") {
-            wkWebView.load(requ)
+            debugLog("timeInterval: \(web.timeInterval) \(web.timeExhibition) \(web.url)")
+            intervalTimer.invalidate()
+            if web.timeInterval > 0 {
+                intervalTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(web.timeInterval), repeats: true) { (timer) in
+                    debugLog("timeInterval: --- \(timer) \(web.url)")
+                    wkWebView.load(requ)
+                }
+            } else {
+                wkWebView.load(requ)
+            }
         }
     }
     
