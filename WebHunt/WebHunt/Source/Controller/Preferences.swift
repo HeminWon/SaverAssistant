@@ -28,6 +28,7 @@ final class Preferences {
         let module = "com.heminwon.io.hunter"
         
         guard let userDefaults = ScreenSaverDefaults(forModuleWithName: module) else {
+            warnLog("Couldn't create ScreenSaverDefaults, creating generic UserDefaults")
             return UserDefaults()
         }
         

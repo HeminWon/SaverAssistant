@@ -22,21 +22,25 @@ class WebHuntView: ScreenSaverView {
         let preferences = Preferences.sharedInstance
         return (preferences.multiMonitorMode == Preferences.MultiMonitorMode.mirrored.rawValue)
     }
+    struct Static {
+        static let instance: HunterWeb = HunterWeb(url: "", remark: "", group: "")
+        static var _web: HunterWeb?
+        static var web: HunterWeb {
+            if let activeWeb = _web {
+                return activeWeb
+            }
+            _web = ManifestLoader.instance.randomWeb(excluding: WebHuntView.webs)
+            return _web!
+        }
+    }
     
     class var sharedWeb: HunterWeb {
-        struct Static {
-            static let instance: HunterWeb = HunterWeb(url: "", remark: "", group: "")
-            static var _web: HunterWeb?
-            static var web: HunterWeb {
-                if let activeWeb = _web {
-                    return activeWeb
-                }
-
-                _web = ManifestLoader.instance.randomWeb(excluding: WebHuntView.webs)
-                return _web!
-            }
+        get {
+            return Static.web
         }
-        return Static.web
+        set {
+            Static._web = newValue
+        }
     }
     
     lazy var webViewController: WHWebViewController = {
@@ -112,6 +116,7 @@ class WebHuntView: ScreenSaverView {
         if web.timeExhibition > 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(web.timeExhibition)) {
                 debugLog("timeExhibition: >>> \(web.url)")
+//                WebHuntView.sharedWeb = ManifestLoader.instance.randomWeb(excluding: WebHuntView.webs)!
                 self.updateURL()
             }
         }
