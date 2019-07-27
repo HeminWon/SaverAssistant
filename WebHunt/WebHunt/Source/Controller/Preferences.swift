@@ -52,7 +52,7 @@ final class Preferences {
         var defaultValues = [Identifiers: Any]()
         defaultValues[.debugMode] = false
         defaultValues[.logToDisk] = true
-        defaultValues[.multiMonitorMode] = MultiMonitorMode.mainOnly
+        defaultValues[.multiMonitorMode] = MultiMonitorMode.mirrored
         
         let defaults = defaultValues.reduce([String: Any]()) { (result, pair:(key: Identifiers, value: Any)) -> [String: Any] in
             var mutable = result

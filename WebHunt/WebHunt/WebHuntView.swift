@@ -8,6 +8,7 @@
 
 import ScreenSaver
 import WebKit
+import RxSwift
 
 class WebHuntView: ScreenSaverView {
     
@@ -18,10 +19,13 @@ class WebHuntView: ScreenSaverView {
     
     static var previewView: WebHuntView?
     
+    let disposeBag = DisposeBag()
+    
     static var sharingWebs: Bool {
         let preferences = Preferences.sharedInstance
         return (preferences.multiMonitorMode == Preferences.MultiMonitorMode.mirrored.rawValue)
     }
+    
     struct Static {
         static let instance: HunterWeb = HunterWeb(url: "", remark: "", group: "")
         static var _web: HunterWeb?
@@ -112,12 +116,31 @@ class WebHuntView: ScreenSaverView {
         guard let web = currentWeb else {
             return
         }
+
+        let subject = PublishSubject<WebHuntView>()
+        WebHuntViewManager.manager.subjects.append(subject)
+        
         debugLog("timeExhibition: \(web.timeInterval) \(web.timeExhibition) \(web.url)")
         if web.timeExhibition > 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(web.timeExhibition)) {
                 debugLog("timeExhibition: >>> \(web.url)")
-//                WebHuntView.sharedWeb = ManifestLoader.instance.randomWeb(excluding: WebHuntView.webs)!
-                self.updateURL()
+            
+                if !WebHuntViewManager.manager.ziping {
+                    WebHuntViewManager.manager.ziping = true
+                    
+                    Observable.zip(WebHuntViewManager.manager.subjects).subscribe { (event) in
+                        WebHuntView.Static._web = nil
+                        WebHuntViewManager.manager.subjects.removeAll()
+                        //
+                        if let webHuntViews:[WebHuntView] = event.element {
+                            for webHuntView in webHuntViews {
+                                webHuntView.updateURL()
+                            }
+                        }
+                        WebHuntViewManager.manager.ziping = false
+                    }.disposed(by: self.disposeBag)
+                }
+                subject.onNext(self)
             }
         }
         
@@ -167,4 +190,10 @@ class WebHuntView: ScreenSaverView {
         // Drawing code here.
     }
     
+}
+
+class WebHuntViewManager {
+    static let manager:WebHuntViewManager = WebHuntViewManager()
+    var ziping = false
+    var subjects = [PublishSubject<WebHuntView>]()
 }

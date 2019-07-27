@@ -15,6 +15,7 @@
 		A46A549C22A3EE0600E86E35 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A46A549B22A3EE0600E86E35 /* Preferences.storyboard */; };
 		A46A549F22A3FB7000E86E35 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A549E22A3FB7000E86E35 /* PreferencesWindow.swift */; };
 		A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A54A022A420B500E86E35 /* WHContainerViewController.swift */; };
+		A4764D6322EC921600217ADF /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A4764D6222EC921600217ADF /* RxSwift */; };
 		A483E4DB22D211CC001966A3 /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = A483E4DA22D211CC001966A3 /* Yams */; };
 		A49B1BDB22BF907000872E5C /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BDA22BF907000872E5C /* Preferences.swift */; };
 		A49B1BDF22BFC0D700872E5C /* LogMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49B1BDE22BFC0D700872E5C /* LogMessage.swift */; };
@@ -102,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4764D6322EC921600217ADF /* RxSwift in Frameworks */,
 				A483E4DB22D211CC001966A3 /* Yams in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +274,7 @@
 			name = WebHunt;
 			packageProductDependencies = (
 				A483E4DA22D211CC001966A3 /* Yams */,
+				A4764D6222EC921600217ADF /* RxSwift */,
 			);
 			productName = WebHunt;
 			productReference = A45DC0CE22A2DA17001A1447 /* WebHunt.saver */;
@@ -311,6 +314,7 @@
 			mainGroup = 0095C5BD1F22F08E001CB8AD;
 			packageReferences = (
 				A483E4D922D211CC001966A3 /* XCRemoteSwiftPackageReference "Yams" */,
+				A4764D6122EC921600217ADF /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 0095C5C81F22F08E001CB8AD /* Products */;
 			projectDirPath = "";
@@ -624,6 +628,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A4764D6122EC921600217ADF /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		A483E4D922D211CC001966A3 /* XCRemoteSwiftPackageReference "Yams" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jpsim/Yams.git";
@@ -635,6 +647,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A4764D6222EC921600217ADF /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A4764D6122EC921600217ADF /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
 		A483E4DA22D211CC001966A3 /* Yams */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A483E4D922D211CC001966A3 /* XCRemoteSwiftPackageReference "Yams" */;
