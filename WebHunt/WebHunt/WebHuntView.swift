@@ -91,12 +91,6 @@ class WebHuntView: ScreenSaverView {
         }
     }
     
-    func createWebView() -> WKWebView {
-        let webViewConfiguration = WKWebViewConfiguration.init()
-        let webView = WKWebView(frame:CGRect.zero, configuration: webViewConfiguration)
-        return webView
-    }
-    
     func setupWebView() {
         self.webViewController.webVIew.frame = self.bounds
         self.addSubview(self.webViewController.webVIew)
@@ -118,29 +112,35 @@ class WebHuntView: ScreenSaverView {
         }
 
         let subject = PublishSubject<WebHuntView>()
-        WebHuntViewManager.manager.subjects.append(subject)
+        if WebHuntView.sharingWebs {
+            WebHuntViewManager.manager.subjects.append(subject)
+        }
         
         debugLog("timeExhibition: \(web.timeInterval) \(web.timeExhibition) \(web.url)")
         if web.timeExhibition > 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(web.timeExhibition)) {
                 debugLog("timeExhibition: >>> \(web.url)")
-            
-                if !WebHuntViewManager.manager.ziping {
-                    WebHuntViewManager.manager.ziping = true
-                    
-                    Observable.zip(WebHuntViewManager.manager.subjects).subscribe { (event) in
-                        WebHuntView.Static._web = nil
-                        WebHuntViewManager.manager.subjects.removeAll()
-                        //
-                        if let webHuntViews:[WebHuntView] = event.element {
-                            for webHuntView in webHuntViews {
-                                webHuntView.updateURL()
+                
+                if WebHuntView.sharingWebs {
+                    if !WebHuntViewManager.manager.ziping {
+                        WebHuntViewManager.manager.ziping = true
+                        
+                        Observable.zip(WebHuntViewManager.manager.subjects).subscribe { (event) in
+                            WebHuntView.Static._web = nil
+                            WebHuntViewManager.manager.subjects.removeAll()
+                            //
+                            if let webHuntViews:[WebHuntView] = event.element {
+                                for webHuntView in webHuntViews {
+                                    webHuntView.updateURL()
+                                }
                             }
-                        }
-                        WebHuntViewManager.manager.ziping = false
-                    }.disposed(by: self.disposeBag)
+                            WebHuntViewManager.manager.ziping = false
+                            }.disposed(by: self.disposeBag)
+                    }
+                    subject.onNext(self)
+                } else {
+                    self.updateURL()
                 }
-                subject.onNext(self)
             }
         }
         
