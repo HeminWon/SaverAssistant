@@ -13,15 +13,28 @@ final class Preferences {
     
     // MARK: - Types
     fileprivate enum Identifiers: String {
-        case multiMonitorMode = "multiMonitorMode"
+        case newDisplayMode = "newDisplayMode"
+        case newViewingMode = "newViewingMode"
         case debugMode = "debugMode"
         case logToDisk = "logToDisk"
     }
     
-    enum MultiMonitorMode: Int {
-        case mainOnly, mirrored, independant, secondaryOnly
+    enum NewDisplayMode: Int {
+        case allDisplays, mainOnly, secondaryOnly, selection
     }
-
+    
+    enum NewViewingMode: Int {
+        case independent, mirrored, spanned
+    }
+    
+    enum BetaCheckFrequency: Int {
+        case hourly, bidaily, daily
+    }
+    
+    enum NewVideosMode: Int {
+        case weekly, monthly, never
+    }
+    
     static let sharedInstance = Preferences()
     
     lazy var userDefaults: UserDefaults = {
@@ -35,12 +48,12 @@ final class Preferences {
         return userDefaults
     }()
     
-    var multiMonitorMode: Int? {
+    var newViewingMode: Int? {
         get {
-            return optionalValue(forIdentifier: .multiMonitorMode)
+            return optionalValue(forIdentifier: .newViewingMode)
         }
         set {
-            setValue(forIdentifier: .multiMonitorMode, value: newValue)
+            setValue(forIdentifier: .newViewingMode, value: newValue)
         }
     }
     
@@ -52,7 +65,6 @@ final class Preferences {
         var defaultValues = [Identifiers: Any]()
         defaultValues[.debugMode] = false
         defaultValues[.logToDisk] = true
-        defaultValues[.multiMonitorMode] = MultiMonitorMode.mirrored
         
         let defaults = defaultValues.reduce([String: Any]()) { (result, pair:(key: Identifiers, value: Any)) -> [String: Any] in
             var mutable = result

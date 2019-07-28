@@ -177,7 +177,6 @@
 			isa = PBXGroup;
 			children = (
 				A46A549522A3ED2A00E86E35 /* PreferencesWindowController.swift */,
-				A49B1BDA22BF907000872E5C /* Preferences.swift */,
 				A46A54A022A420B500E86E35 /* WHContainerViewController.swift */,
 				A4CF3C5822ABF16500FFCA38 /* WHWebPreferencesViewController.swift */,
 				A49B1BE422BFCE4800872E5C /* HTAdvancedViewController.swift */,
@@ -205,6 +204,7 @@
 				A49F54A122AA216400022A59 /* ManifestLoader.swift */,
 				A49B1BDE22BFC0D700872E5C /* LogMessage.swift */,
 				A49F54A322AA25AD00022A59 /* HunterWeb.swift */,
+				A49B1BDA22BF907000872E5C /* Preferences.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

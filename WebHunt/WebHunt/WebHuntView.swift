@@ -23,7 +23,8 @@ class WebHuntView: ScreenSaverView {
     
     static var sharingWebs: Bool {
         let preferences = Preferences.sharedInstance
-        return (preferences.multiMonitorMode == Preferences.MultiMonitorMode.mirrored.rawValue)
+        return (preferences.newViewingMode == Preferences.NewViewingMode.mirrored.rawValue) ||
+            (preferences.newViewingMode == Preferences.NewViewingMode.spanned.rawValue)
     }
     
     struct Static {
