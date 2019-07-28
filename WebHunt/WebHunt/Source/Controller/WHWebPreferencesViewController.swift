@@ -27,9 +27,10 @@ final class Category {
 class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate {
 
     @IBOutlet weak var outlineView: NSOutlineView!
-    @IBOutlet weak var wkWebView: WKWebView!
+    @IBOutlet weak var newDisplayModePopup: NSPopUpButton!
+    @IBOutlet weak var newViewingModePopup: NSPopUpButton!
     
-    @IBOutlet weak var multiMonitorModePopup: NSPopUpButton!
+    lazy var preferences = Preferences.sharedInstance
     
     var webs: [HunterWeb]?
     var categories = [Category]()
@@ -85,8 +86,27 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
             self.outlineView.expandItem(nil, expandChildren: true)
         }
     }
+}
+
+// MARK: -
+extension WHWebPreferencesViewController {
     
-    // MARK: - Outline View Delegate & Data Source
+    @IBAction func newDisplayModeAction(_ sender: NSPopUpButton) {
+        debugLog("UI newDisplayModeClick: \(sender.indexOfSelectedItem)")
+        preferences.newDisplayMode = sender.indexOfSelectedItem
+        if preferences.newDisplayMode == Preferences.NewDisplayMode.selection.rawValue {
+        } else {
+        }
+    }
+    
+    @IBAction func newViewingModeAction(_ sender: NSPopUpButton) {
+        debugLog("UI newViewingModeClick: \(sender.indexOfSelectedItem)")
+        preferences.newViewingMode = sender.indexOfSelectedItem
+    }
+}
+
+// MARK: - Outline View Delegate & Data Source
+extension WHWebPreferencesViewController {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         guard item != nil else { return categories.count }
         switch item {
@@ -157,10 +177,12 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
             return view
         case let web as HunterWeb:
             let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CheckCell"),
-                                            owner: nil) as! NSTableCellView
+                                            owner: nil) as! CheckCellView
             // Mark the new view for this video for subsequent callbacks
-            view.textField?.stringValue = web.url
-            
+            view.mainTextField?.stringValue = web.url
+            view.secondTextField?.stringValue = String(web.timeInterval)
+            view.thirdTextField?.stringValue = String(web.timeExhibition)
+            view.detailTextField?.stringValue = web.remark ?? ""
             return view
         default:
             return nil
@@ -178,7 +200,10 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
     
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         switch item {
-        case is HunterWeb:
+        case let web as HunterWeb:
+            if (web.remark != nil && web.remark != "") {
+                return 48
+            }
             return 19
         case is Category:
             return 17
@@ -186,6 +211,7 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
             fatalError("unhandled item in heightOfRowByItem for \(item)")
         }
     }
+    
     func outlineView(_ outlineView: NSOutlineView, sizeToFitWidthOfColumn column: Int) -> CGFloat {
         return 0
     }

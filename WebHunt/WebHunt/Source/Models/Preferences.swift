@@ -48,6 +48,15 @@ final class Preferences {
         return userDefaults
     }()
     
+    var newDisplayMode: Int? {
+        get {
+            return optionalValue(forIdentifier: .newDisplayMode)
+        }
+        set {
+            setValue(forIdentifier: .newDisplayMode, value: newValue)
+        }
+    }
+    
     var newViewingMode: Int? {
         get {
             return optionalValue(forIdentifier: .newViewingMode)

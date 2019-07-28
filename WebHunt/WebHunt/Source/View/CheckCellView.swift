@@ -11,8 +11,10 @@ import Cocoa
 class CheckCellView: NSTableCellView {
 
     @IBOutlet weak var checkButton: NSButton!
-    @IBOutlet weak var addButton: NSButton!
     @IBOutlet weak var mainTextField: NSTextField!
+    @IBOutlet weak var secondTextField: NSTextField!
+    @IBOutlet weak var thirdTextField: NSTextField!
+    @IBOutlet weak var detailTextField: NSTextField!
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
