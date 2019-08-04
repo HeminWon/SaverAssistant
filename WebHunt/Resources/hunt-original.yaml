@@ -2,54 +2,22 @@
 version: 0.0.1
 webProfiles:
 - group: fakeupdate
-  url: http://fakeupdate.net/windows98/
-  remark: windows 98
-  timeInterval: 20
-  timeExhibition: 300
-- group: fakeupdate
-  url: http://fakeupdate.net/xp/
-  remark: windows xp
-  timeInterval: 1
-  timeExhibition: 1
-- group: fakeupdate
-  url: http://fakeupdate.net/vista/
-  remark: vista
-  timeInterval: 0
-  timeExhibition: 0
-- group: fakeupdate
-  url: http://fakeupdate.net/win8/
-  remark: windows 8
-- group: fakeupdate
-  url: http://fakeupdate.net/win7/
-  remark: ''
-  timeInterval: 20
-  timeExhibition: 300
-- group: fakeupdate
   url: http://fakeupdate.net/apple/
   remark: ''
-- group: fakeupdate
-  url: http://fakeupdate.net/win10/
-  remark: ''
-  timeInterval: 20
+  timeInterval: 0
   timeExhibition: 300
 - group: fakeupdate
-  url: http://fakeupdate.net/win10u/
+  url: https://ertdfgcvb.xyz/
   remark: ''
-  timeInterval: 20
+  timeInterval: 0
   timeExhibition: 300
 - group: fakeupdate
-  url: http://fakeupdate.net/steam/
+  url: https://heminwon.github.io/warehouse/tuya/
   remark: ''
-  timeInterval: 5
-  timeExhibition: 20
+  timeInterval: 0
+  timeExhibition: 400
 - group: fakeupdate
-  url: http://fakeupdate.net/wnc/
+  url: http://factoclock.com/
   remark: ''
-  timeInterval: 10
-  timeExhibition: 30
-- group: funny
-  url: http://www.windows93.net/
-  remark: ''
-- group: ''
-  url: http://geekgroupr.com/matrix/
-  remark: ''
+  timeInterval: 0
+  timeExhibition: 0

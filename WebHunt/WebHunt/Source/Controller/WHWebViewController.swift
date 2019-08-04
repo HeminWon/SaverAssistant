@@ -20,6 +20,7 @@ class WHWebViewController: NSViewController,WKNavigationDelegate {
     override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         webVIew.navigationDelegate = self
+        webVIew.isHidden = true
         self.view = webVIew
     }
     
