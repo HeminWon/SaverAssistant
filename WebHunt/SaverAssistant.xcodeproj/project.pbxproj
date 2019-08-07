@@ -34,6 +34,7 @@
 		A4C4816B229A51B60060F891 /* MEMWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48164229A51B60060F891 /* MEMWindowController.swift */; };
 		A4C4816C229A51B60060F891 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48165229A51B60060F891 /* main.swift */; };
 		A4CF3C5922ABF16500FFCA38 /* WHWebPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CF3C5822ABF16500FFCA38 /* WHWebPreferencesViewController.swift */; };
+		A4D72D8A22FB1D6E00CD8809 /* DisplayDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D72D8922FB1D6E00CD8809 /* DisplayDetection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		A4C48164229A51B60060F891 /* MEMWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MEMWindowController.swift; sourceTree = "<group>"; };
 		A4C48165229A51B60060F891 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		A4CF3C5822ABF16500FFCA38 /* WHWebPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHWebPreferencesViewController.swift; sourceTree = "<group>"; };
+		A4D72D8922FB1D6E00CD8809 /* DisplayDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayDetection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 				A49F54A822AA684300022A59 /* Downloads */,
 				A49F54A522AA43C900022A59 /* Cache */,
 				A49F54A122AA216400022A59 /* ManifestLoader.swift */,
+				A4D72D8922FB1D6E00CD8809 /* DisplayDetection.swift */,
 				A49B1BDE22BFC0D700872E5C /* LogMessage.swift */,
 				A49F54A322AA25AD00022A59 /* HunterWeb.swift */,
 				A49B1BDA22BF907000872E5C /* Preferences.swift */,
@@ -372,6 +375,7 @@
 				A49F54A722AA43ED00022A59 /* WebCache.swift in Sources */,
 				A49F54AA22AA688500022A59 /* DownloadManager.swift in Sources */,
 				A46A549F22A3FB7000E86E35 /* PreferencesWindow.swift in Sources */,
+				A4D72D8A22FB1D6E00CD8809 /* DisplayDetection.swift in Sources */,
 				A49F54AC22AA6A0900022A59 /* AsynchronousOperation.swift in Sources */,
 				A46A549622A3ED2A00E86E35 /* PreferencesWindowController.swift in Sources */,
 				A4CF3C5922ABF16500FFCA38 /* WHWebPreferencesViewController.swift in Sources */,

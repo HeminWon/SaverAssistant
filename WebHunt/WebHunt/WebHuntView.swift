@@ -84,6 +84,9 @@ class WebHuntView: ScreenSaverView {
     // MARK: Private
     func setup(){
 
+        let displayDetection = DisplayDetection.sharedInstance
+        infoLog("\(displayDetection.screens)")
+        
         setupWebView()
         
         ManifestLoader.instance.addCallback { _ in

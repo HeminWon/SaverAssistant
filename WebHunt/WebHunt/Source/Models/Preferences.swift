@@ -13,6 +13,7 @@ final class Preferences {
     
     // MARK: - Types
     fileprivate enum Identifiers: String {
+        case newDisplayDict = "newDisplayDict"
         case newDisplayMode = "newDisplayMode"
         case newViewingMode = "newViewingMode"
         case debugMode = "debugMode"
@@ -54,6 +55,15 @@ final class Preferences {
         }
         set {
             setValue(forIdentifier: .newDisplayMode, value: newValue)
+        }
+    }
+    
+    var newDisplayDict: [String: Bool] {
+        get {
+            return userDefaults.dictionary(forKey: "newDisplayDict") as! [String: Bool]
+        }
+        set {
+            setValue(forIdentifier: .newDisplayDict, value: newValue)
         }
     }
     
