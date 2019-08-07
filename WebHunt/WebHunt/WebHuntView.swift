@@ -126,22 +126,7 @@ class WebHuntView: ScreenSaverView {
                 debugLog("timeExhibition: >>> \(web.url)")
                 
                 if WebHuntView.sharingWebs {
-                    if !WebHuntViewManager.manager.ziping {
-                        WebHuntViewManager.manager.ziping = true
-                        
-                        Observable.zip(WebHuntViewManager.manager.subjects).subscribe { (event) in
-                            WebHuntView.Static._web = nil
-                            WebHuntViewManager.manager.subjects.removeAll()
-                            //
-                            if let webHuntViews:[WebHuntView] = event.element {
-                                for webHuntView in webHuntViews {
-                                    webHuntView.updateURL()
-                                }
-                            }
-                            WebHuntViewManager.manager.ziping = false
-                            }.disposed(by: self.disposeBag)
-                    }
-                    subject.onNext(self)
+                    self.zipView(subject: subject)
                 } else {
                     self.updateURL()
                 }
@@ -165,6 +150,30 @@ class WebHuntView: ScreenSaverView {
                 wkWebView.load(requ)
             }
         }
+    }
+    
+    func zipView(subject: PublishSubject<WebHuntView>) {
+        if WebHuntViewManager.manager.subjects.count != DisplayDetection.sharedInstance.screens.count {
+            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(1.5)) {
+                self.zipView(subject: subject)
+            }
+        }
+        if !WebHuntViewManager.manager.ziping {
+            WebHuntViewManager.manager.ziping = true
+            
+            Observable.zip(WebHuntViewManager.manager.subjects).subscribe { (event) in
+                WebHuntView.Static._web = nil
+                WebHuntViewManager.manager.subjects.removeAll()
+                //
+                if let webHuntViews:[WebHuntView] = event.element {
+                    for webHuntView in webHuntViews {
+                        webHuntView.updateURL()
+                    }
+                }
+                WebHuntViewManager.manager.ziping = false
+                }.disposed(by: self.disposeBag)
+        }
+        subject.onNext(self)
     }
     
     override var hasConfigureSheet: Bool {
