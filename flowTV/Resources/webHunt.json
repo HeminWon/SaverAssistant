@@ -1,0 +1,12 @@
+{
+    "subscribes": [
+        {
+            "url": "https://www.baidu.com",
+            "reamrk": "测试"
+        },
+        {
+            "url": "https://www.test.com",
+            "reamrk": "test"
+        }
+    ]
+}

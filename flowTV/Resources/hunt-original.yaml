@@ -1,0 +1,23 @@
+---
+version: 0.0.1
+webProfiles:
+- group: fakeupdate
+  url: http://fakeupdate.net/apple/
+  remark: ''
+  timeInterval: 0
+  timeExhibition: 300
+- group: fakeupdate
+  url: https://ertdfgcvb.xyz/
+  remark: ''
+  timeInterval: 0
+  timeExhibition: 300
+- group: fakeupdate
+  url: https://heminwon.github.io/warehouse/tuya/
+  remark: ''
+  timeInterval: 0
+  timeExhibition: 400
+- group: fakeupdate
+  url: http://factoclock.com/
+  remark: ''
+  timeInterval: 0
+  timeExhibition: 0
