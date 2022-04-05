@@ -28,10 +28,15 @@ public final class Parser {
     }
     
     public func singleRoot() throws -> [Channel]? {
-        let rows = m3u.components(separatedBy:"\n");
+        let rows = m3u.components(separatedBy:"\n").filter { return $0.count > 0 }
+        guard rows.count > 0 else {
+            throw M3uError.invalidEXTM3U
+        }
+        guard rows.first!.hasPrefix("#EXTM3U") else {
+            throw M3uError.invalidEXTM3U
+        }
         var chanel = Channel()
         for row in rows {
-            
             if row.hasPrefix("#EXTM3U") {
                 continue
             }
@@ -50,7 +55,6 @@ public final class Parser {
     
     func parseProperties(row: String) throws -> [String: String] {
         var retdict = [String: String]()
-//        let regex = "#EXT.*:-?[0-9]+\\s(.*?=.*?)\\s?\\,\\s?(.*?$)"
         let regex = "#EXT.*:(-?\\d+)\\s(.*?=.*?)\\s?\\,\\s?(.*?$)"
         let RE = try NSRegularExpression(pattern: regex, options: .caseInsensitive)
         let matches = RE.matches(in: row, options: .reportProgress, range: NSRange(location: 0, length: row.count))
@@ -59,7 +63,6 @@ public final class Parser {
             let string = (row as NSString).substring(with: item.range)
             print(string)
         }
-        
         let xs = row.replacingOccurrences(of: ",", with: " ").replacingOccurrences(of: "\"", with: "").components(separatedBy: " ")
         for str in xs {
             if str.contains("=") {
