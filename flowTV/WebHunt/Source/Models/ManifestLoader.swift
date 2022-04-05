@@ -310,12 +310,13 @@ class ManifestLoader {
         guard let yamlStr = file else {
             return nil;
         }
-        let batches = try? Yams.load(yaml: yamlStr) as? [String: Any]
-        
-        guard let batch = batches else {
-            return nil
-        }
-        return batch as NSDictionary
+//        let batches = try? Yams.load(yaml: yamlStr) as? [String: Any]
+        _ = try? load(m3u: yamlStr)
+//        guard let batch = batches else {
+//            return nil
+//        }
+//        return batch as NSDictionary
+        return [String: String]() as NSDictionary
     }
     
     func readSubsribes(url: URL) -> [Subscriber]? {

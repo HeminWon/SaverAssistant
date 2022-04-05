@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A43EFA2D22D4D5C0008AEE03 /* WHWebManagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43EFA2B22D4D5C0008AEE03 /* WHWebManagerController.swift */; };
 		A43EFA2E22D4D5C0008AEE03 /* WHWebManagerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A43EFA2C22D4D5C0008AEE03 /* WHWebManagerController.xib */; };
+		A44F98F227FB5C5E00F8842E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44F98F127FB5C5E00F8842E /* Parser.swift */; };
 		A45DC0DD22A2DF05001A1447 /* WebHunt.saver in CopyFiles */ = {isa = PBXBuildFile; fileRef = A45DC0CE22A2DA17001A1447 /* WebHunt.saver */; };
 		A46A549622A3ED2A00E86E35 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A549522A3ED2A00E86E35 /* PreferencesWindowController.swift */; };
 		A46A549822A3ED5000E86E35 /* WebHuntView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46A549722A3ED5000E86E35 /* WebHuntView.swift */; };
@@ -64,6 +65,7 @@
 		0095C5E21F22F2B7001CB8AD /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A43EFA2B22D4D5C0008AEE03 /* WHWebManagerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHWebManagerController.swift; sourceTree = "<group>"; };
 		A43EFA2C22D4D5C0008AEE03 /* WHWebManagerController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WHWebManagerController.xib; sourceTree = "<group>"; };
+		A44F98F127FB5C5E00F8842E /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		A45DC0CE22A2DA17001A1447 /* WebHunt.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebHunt.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		A45DC0D422A2DA17001A1447 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A46A549522A3ED2A00E86E35 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 		A46A548B22A3D9FD00E86E35 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				A4BDBB5F27F88A84000A4FF0 /* M3U */,
 				A49F549C22AA1E1300022A59 /* Models */,
 				A46A549D22A3FB4A00E86E35 /* View */,
 				A46A548E22A3DC0600E86E35 /* Controller */,
@@ -227,6 +230,14 @@
 				A49F54AB22AA6A0900022A59 /* AsynchronousOperation.swift */,
 			);
 			path = Downloads;
+			sourceTree = "<group>";
+		};
+		A4BDBB5F27F88A84000A4FF0 /* M3U */ = {
+			isa = PBXGroup;
+			children = (
+				A44F98F127FB5C5E00F8842E /* Parser.swift */,
+			);
+			path = M3U;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,6 +391,7 @@
 				A46A549622A3ED2A00E86E35 /* PreferencesWindowController.swift in Sources */,
 				A4CF3C5922ABF16500FFCA38 /* WHWebPreferencesViewController.swift in Sources */,
 				A49B1BDF22BFC0D700872E5C /* LogMessage.swift in Sources */,
+				A44F98F227FB5C5E00F8842E /* Parser.swift in Sources */,
 				A43EFA2D22D4D5C0008AEE03 /* WHWebManagerController.swift in Sources */,
 				A49F54A222AA216400022A59 /* ManifestLoader.swift in Sources */,
 				A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */,
