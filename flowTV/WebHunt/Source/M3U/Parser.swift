@@ -15,8 +15,8 @@ public struct Channel {
 }
 
 public struct M3U {
-    public static func load(m3u: String) throws -> [Channel]? {
-        return try Parser.init(m3u:m3u).singleRoot()
+    public static func load(m3u: String) throws -> [Channel] {
+        return try Parser.init(m3u:m3u).m3uToChannels()
     }
 }
 
@@ -29,7 +29,7 @@ public final class Parser {
         m3u = string
     }
     
-    public func singleRoot() throws -> [Channel]? {
+    public func m3uToChannels() throws -> [Channel] {
         let rows = m3u.components(separatedBy:"\n").filter { return $0.count > 0 }
         guard rows.count > 0 else {
             throw M3uError.invalidEXTM3U
@@ -44,7 +44,7 @@ public final class Parser {
             }
             else if row.hasPrefix("#EXT") {
                 chanel.prop = try self.parseProperties(row: row)
-                chanel.name = row.components(separatedBy: ",").last?.trimmingCharacters(in: .whitespaces)
+                chanel.name = self.parseName(row: row)
             }
             else if row.contains("://") {
                 chanel.url = row.trimmingCharacters(in: .whitespaces)
@@ -56,7 +56,24 @@ public final class Parser {
                 chanel = Channel()
             }
         }
+        guard listach.count > 0 else {
+            throw M3uError.invalidEXTM3U
+        }
         return listach
+    }
+    
+    func parseName(row: String) -> String? {
+        let sep = row.components(separatedBy: ",")
+        guard sep.count == 2 else {
+            return nil
+        }
+        guard let oriName = sep.last?.trimmingCharacters(in: .whitespaces) else {
+            return nil
+        }
+        guard oriName.count > 0 else {
+            return nil
+        }
+        return oriName
     }
     
     func parseProperties(row: String) throws -> [String: String] {
@@ -71,12 +88,17 @@ public final class Parser {
         }
         let xs = row.replacingOccurrences(of: ",", with: " ").replacingOccurrences(of: "\"", with: "").components(separatedBy: " ")
         for str in xs {
-            if str.contains("=") {
-                let ixs = str.components(separatedBy: "=")
-                if ixs.count == 2 {
-                    retdict[ixs.first ?? ""] = ixs.last
-                }
+            let ixs = str.components(separatedBy: "=")
+            guard ixs.count == 2 else {
+                continue
             }
+            guard let key = ixs.first, let value = ixs.last else {
+                continue
+            }
+            guard key.count > 0, value.count > 0 else {
+                continue
+            }
+            retdict[key] = value
         }
         return retdict
     }

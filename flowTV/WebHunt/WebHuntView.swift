@@ -64,7 +64,10 @@ class WebHuntView: ScreenSaverView {
         
         ManifestLoader.instance.addCallback { channels in
             debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
-            let url = NSURL(string: (channels.first?.url)!)
+            guard let urlStr = channels.first?.url else {
+                return
+            }
+            let url = NSURL(string: urlStr)
             let playerItem = AVPlayerItem(url: url! as URL)
             self.avview.player?.replaceCurrentItem(with: playerItem)
         }

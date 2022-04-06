@@ -61,9 +61,7 @@ class ManifestLoader {
             self.load()
         }
     }
-    
-    // MARK: - Manifests
-    
+
     // Check if the Manifests have been loaded in this class already
     func areManifestsFilesLoaded() -> Bool {
         if loadedManifest.count > 0 {
@@ -115,7 +113,7 @@ class ManifestLoader {
             let fileManager = FileManager.default
             
             var cacheResourcesString = cacheDirectory
-            cacheResourcesString.append(contentsOf: "/" + "heminTV.m3u")
+            cacheResourcesString.append(contentsOf: "/" + "tvList.yaml")
             
             if !fileManager.fileExists(atPath: cacheResourcesString) {
                 return nil
@@ -195,12 +193,12 @@ class ManifestLoader {
         let fileManager = FileManager.default
         
         let cacheDirectory = WebCache.cacheDirectory!
-        if !fileManager.fileExists(atPath: cacheDirectory.appending("/heminTV.m3u")) {
-            let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/heminTV.m3u"))
+        if !fileManager.fileExists(atPath: cacheDirectory.appending("/tvList.yaml")) {
+            let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/tvList.yaml"))
             fileManager.createFile(atPath: webHuntURL.path, contents: nil, attributes: nil)
         }
         
-        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/heminTV.m3u"))
+        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/tvList.yaml"))
         do {
             let file = try String(contentsOf: webHuntURL)
             let ele : Node = [Node("url"): try Node(url), Node("remark"): Node(remark)]
@@ -234,7 +232,7 @@ class ManifestLoader {
     
     func saveWebHunt(_ object: Any?) {
         let cacheDirectory = WebCache.cacheDirectory!
-        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/heminTV.m3u"))
+        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/tvList.yaml"))
         do {
             let yaml = try Yams.dump(object:object, allowUnicode: true)
             try yaml.write(to: webHuntURL, atomically: true, encoding: String.Encoding.utf8)
@@ -252,16 +250,6 @@ class ManifestLoader {
     }
     
     // MARK: - JSON
-    func readJSONFromData(_ data: Data) -> NSDictionary? {
-        let options = JSONSerialization.ReadingOptions.allowFragments
-        let batches = try? JSONSerialization.jsonObject(with: data, options: options) as? NSDictionary
-
-        guard let batch = batches else {
-            return nil
-        }
-        return batch
-    }
-    
     func readM3U(_ url: URL) -> [Channel]? {
         if !url.isFileURL {
             errorLog("need yaml file")
@@ -274,18 +262,49 @@ class ManifestLoader {
             return nil;
         }
 
-        let channels = try! M3U.load(m3u: yamlStr)
+        let channels = try? M3U.load(m3u: yamlStr)
         return channels
+    }
+    
+    func readYaml(_ url: URL) -> NSDictionary? {
+        if !url.isFileURL {
+            errorLog("need yaml file")
+            return nil
+        }
+        
+        let file = try? String(contentsOf: url)
+        
+        guard let yamlStr = file else {
+            return nil;
+        }
+        let batches = try? Yams.load(yaml: yamlStr) as? [String: Any]
+        
+        guard let batch = batches else {
+            return nil
+        }
+        return batch as NSDictionary
     }
     
     func readSubsribes(url: URL) -> [Subscriber]? {
         if !FileManager.default.fileExists(atPath: url.path) {
             return nil
         }
-//        if let channels = readM3U(url) {
-//            var subscribes = [Subscriber]()
-//            return subscribes
-//        }
+        if let batch = readYaml(url) {
+            guard let assets = batch["subscribes"] as? [NSDictionary] else { return nil }
+            var subscribes = [Subscriber]()
+            for item in assets {
+                guard let url = item["url"] as? String else {
+                    continue
+                }
+                guard let remark = item["remark"] as? String else {
+                    continue
+                }
+                if let subURL = URL(string: url) {
+                    let sub = Subscriber(url: subURL, remark: remark)
+                    subscribes.append(sub)
+                }
+            }
+            return subscribes
+        }
         return nil
-    }
-}
+    }}
