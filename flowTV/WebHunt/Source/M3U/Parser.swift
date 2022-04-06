@@ -8,18 +8,20 @@
 
 import Foundation
 
-public func load(m3u: String) throws -> [Any]? {
-    return try Parser.init(m3u:m3u).singleRoot()
+public struct Channel {
+    public fileprivate(set) var url: String?
+    public fileprivate(set) var name: String?
+    public fileprivate(set) var prop : [String: String]?
+}
+
+public struct M3U {
+    public static func load(m3u: String) throws -> [Channel]? {
+        return try Parser.init(m3u:m3u).singleRoot()
+    }
 }
 
 public final class Parser {
     public let m3u: String
-    
-    public struct Channel {
-        public var name : String?
-        public var prop : [String: String]?
-        public var url : String?
-    }
     
     var listach = [Channel]()
     
@@ -46,6 +48,10 @@ public final class Parser {
             }
             else if row.contains("://") {
                 chanel.url = row.trimmingCharacters(in: .whitespaces)
+                guard chanel.name != nil else {
+                    warnLog("channel name nil url:\(chanel.url!)")
+                    continue
+                }
                 listach.append(chanel)
                 chanel = Channel()
             }

@@ -42,41 +42,23 @@ extension URL {
     }
 }
 
-typealias ManifestLoadCallback = ([HunterWeb]) -> Void
+typealias ManifestLoadCallback = ([Channel]) -> Void
 
 class ManifestLoader {
     static let instance: ManifestLoader = ManifestLoader()
     
     var callbacks = [ManifestLoadCallback]()
-    var loadedManifest = [HunterWeb]()
-    
-    var exhibitionList = [HunterWeb]()
-    var lastExhibitionFromExhibitionList: HunterWeb?
+    var loadedManifest = [Channel]()
     
     init() {
-        if areManifestsFilesLoaded() {
-            loadCachedManifests()
-        } else {
-            if areManifestsCached() {
-                loadCachedManifests()
-            } else {
-                if let subscribes = webHuntsubscribe() {
-                    for subscribe in subscribes {
-                        subscribeWebs(url: subscribe.url, remark: subscribe.remark)
-                    }
-                } else {
-                    subscribeWebs(url: URL(string: "https://raw.githubusercontent.com/HeminWon/homelab/master/m3u8/heminTV.m3u")!, remark: "hunter")
-                }
-            }
-        }
-        
     }
     
     func addCallback(_ callback:@escaping ManifestLoadCallback) {
-        if !loadedManifest.isEmpty {
+        if self.areManifestsFilesLoaded() {
             callback(loadedManifest)
         } else {
             callbacks.append(callback)
+            self.load()
         }
     }
     
@@ -151,6 +133,23 @@ class ManifestLoader {
         return nil
     }
     
+    func load() {
+        if areManifestsFilesLoaded() {
+            loadCachedManifests()
+        } else {
+            if areManifestsCached() {
+                loadCachedManifests()
+            } else {
+                if let subscribes = webHuntsubscribe() {
+                    for subscribe in subscribes {
+                        subscribeWebs(url: subscribe.url, remark: subscribe.remark)
+                    }
+                } else {
+                    subscribeWebs(url: URL(string: "https://raw.githubusercontent.com/HeminWon/homelab/master/m3u8/heminTV.m3u")!, remark: "hunter")
+                }
+            }
+        }
+    }
     
     // Load the JSON Data cached on disk
     func loadCachedManifests() {
@@ -162,21 +161,17 @@ class ManifestLoader {
                     for url in urls {
                         let file = URL(fileURLWithPath: cacheDirectory.appending(url))
                         if file.isM3U {
-                            if let webs = readManifests(url: file) {
-                                loadedManifest += webs
+                            let channels = self.readM3U(file)
+                            self.loadedManifest = channels!
+                            for callback in self.callbacks {
+                                callback(self.loadedManifest)
                             }
+                            self.callbacks.removeAll()
                         }
                     }
-                    loadedManifest = loadedManifest.sorted(by: { (HunterWeb0, HunterWeb1) -> Bool in
-                        return HunterWeb0.url < HunterWeb1.url
-                    })
                 } catch {
                     
                 }
-                for callback in self.callbacks {
-                    callback(self.loadedManifest)
-                }
-                self.callbacks.removeAll()
                 
             }
         }
@@ -247,45 +242,13 @@ class ManifestLoader {
             errorLog("\(error)")
         }
     }
-    
-    // MARK: - Playlist generation
-    func generateExhibitionList() {
-        exhibitionList = [HunterWeb]()
-        
-        // Start with a shuffled list
-        let shuffled = loadedManifest.shuffled()
-        
-        for web in shuffled {
-            
-            // ...
-            exhibitionList.append(web)
-        }
-        // On regenerating a new playlist, we try to avoid repeating
-        if let lastExhibition = lastExhibitionFromExhibitionList {
-            if exhibitionList.count > 1 {
-                exhibitionList = exhibitionList.filter{$0.url != lastExhibition.url}
-            }
-        }
-        exhibitionList.shuffle()
-    }
-    
-    func randomWeb(excluding: [HunterWeb]) -> HunterWeb? {
-        if exhibitionList.isEmpty {
-            generateExhibitionList()
-        }
-        
-        if !exhibitionList.isEmpty {
-            return exhibitionList.removeFirst()
-        }
-        return findBestEffortWeb()
-    }
-    
+
     func findBestEffortWeb() -> HunterWeb? {
         let shuffled = loadedManifest.shuffled()
         if shuffled.isEmpty {
-            return nil
         }
-        return shuffled.first
+        return nil
+//        return shuffled.first
     }
     
     // MARK: - JSON
@@ -299,7 +262,7 @@ class ManifestLoader {
         return batch
     }
     
-    func readYaml(_ url: URL) -> NSDictionary? {
+    func readM3U(_ url: URL) -> [Channel]? {
         if !url.isFileURL {
             errorLog("need yaml file")
             return nil
@@ -310,62 +273,19 @@ class ManifestLoader {
         guard let yamlStr = file else {
             return nil;
         }
-//        let batches = try? Yams.load(yaml: yamlStr) as? [String: Any]
-        _ = try? load(m3u: yamlStr)
-//        guard let batch = batches else {
-//            return nil
-//        }
-//        return batch as NSDictionary
-        return [String: String]() as NSDictionary
+
+        let channels = try! M3U.load(m3u: yamlStr)
+        return channels
     }
     
     func readSubsribes(url: URL) -> [Subscriber]? {
         if !FileManager.default.fileExists(atPath: url.path) {
             return nil
         }
-        if let batch = readYaml(url) {
-            guard let assets = batch["subscribes"] as? [NSDictionary] else { return nil }
-            var subscribes = [Subscriber]()
-            for item in assets {
-                guard let url = item["url"] as? String else {
-                    continue
-                }
-                guard let remark = item["remark"] as? String else {
-                    continue
-                }
-                if let subURL = URL(string: url) {
-                    let sub = Subscriber(url: subURL, remark: remark)
-                    subscribes.append(sub)
-                }
-            }
-            return subscribes
-        }
-        return nil
-    }
-    
-    func readManifests(url: URL) -> [HunterWeb]? {
-        if !FileManager.default.fileExists(atPath: url.path) {
-            return nil
-        }
-        if let batch = readYaml(url) {
-            guard let assets = batch["webProfiles"] as? [NSDictionary] else { return nil }
-            var processedWebs = [HunterWeb]()
-            for item in assets {
-                guard let url = item["url"] as? String else {
-                    continue
-                }
-                let remark = item["remark"] as? String
-                let group = item["group"] as? String
-                let timeInterval = item["timeInterval"] as? Int
-                let timeExhibition = item["timeExhibition"] as? Int
-                
-                let web = HunterWeb(url: url, remark: remark, group: group)
-                web.timeInterval = timeInterval ?? 0
-                web.timeExhibition = timeExhibition ?? 0
-                processedWebs.append(web)
-            }
-            return processedWebs
-        }
+//        if let channels = readM3U(url) {
+//            var subscribes = [Subscriber]()
+//            return subscribes
+//        }
         return nil
     }
 }

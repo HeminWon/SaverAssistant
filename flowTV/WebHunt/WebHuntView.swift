@@ -15,9 +15,6 @@ import AVFoundation
 class WebHuntView: ScreenSaverView {
     
     var preferencesWindowController: PreferencesWindowController?
-    var intervalTimer: Timer = Timer()
-    
-    static var webs: [HunterWeb] = [HunterWeb]()
     
     static var previewView: WebHuntView?
     
@@ -28,39 +25,6 @@ class WebHuntView: ScreenSaverView {
         return (preferences.newViewingMode == Preferences.NewViewingMode.mirrored.rawValue) ||
             (preferences.newViewingMode == Preferences.NewViewingMode.spanned.rawValue)
     }
-    
-    struct Static {
-        static let instance: HunterWeb = HunterWeb(url: "", remark: "", group: "")
-        static var _web: HunterWeb?
-        static var web: HunterWeb {
-            if let activeWeb = _web {
-                return activeWeb
-            }
-            _web = ManifestLoader.instance.randomWeb(excluding: WebHuntView.webs)
-            return _web!
-        }
-    }
-    
-    class var sharedWeb: HunterWeb {
-        get {
-            return Static.web
-        }
-        set {
-            Static._web = newValue
-        }
-    }
-    
-    lazy var webViewController: WHWebViewController = {
-        let webViewController = WHWebViewController()
-        return webViewController
-    }()
-    
-//    lazy var playVC: AVPlayerLayer = {
-//
-//        let avPlayerVC = AVPlayerLayer(player: AVPlayer())
-//        return avPlayerVC
-//    }()
-    
     
     // MARK: init
     override init?(frame: NSRect, isPreview: Bool) {
@@ -98,9 +62,11 @@ class WebHuntView: ScreenSaverView {
         
         setupWebView()
         
-        ManifestLoader.instance.addCallback { _ in
+        ManifestLoader.instance.addCallback { channels in
             debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
-            self.updateURL()
+            let url = NSURL(string: (channels.first?.url)!)
+            let playerItem = AVPlayerItem(url: url! as URL)
+            self.avview.player?.replaceCurrentItem(with: playerItem)
         }
     }
     
@@ -109,8 +75,6 @@ class WebHuntView: ScreenSaverView {
     let playVC = AVPlayerLayer()
 
     func setupWebView() {
-        self.webViewController.webVIew.frame = self.bounds
-        self.addSubview(self.webViewController.webVIew)
         let url = NSURL(string: "http://iptv.tvfix.org/hls/cctv13hd.m3u8")
         let playerItem = AVPlayerItem(url: url! as URL)
 //        avPlayer.replaceCurrentItem(with: playerItem)
@@ -128,82 +92,6 @@ class WebHuntView: ScreenSaverView {
         avview.player?.play()
         avview.window?.backgroundColor = NSColor.white
         self.addSubview(avview)
-    }
-    
-    func updateURL() {
-        let wkWebView = self.webViewController.webVIew
-        wkWebView.stopLoading()
-        
-        var currentWeb: HunterWeb?
-        if WebHuntView.sharingWebs {
-            currentWeb = WebHuntView.sharedWeb
-        } else {
-            currentWeb = ManifestLoader.instance.randomWeb(excluding: WebHuntView.webs)
-        }
-
-        guard let web = currentWeb else {
-            return
-        }
-
-        let subject = PublishSubject<WebHuntView>()
-        if WebHuntView.sharingWebs {
-            WebHuntViewManager.manager.subjects.append(subject)
-        }
-        
-        debugLog("timeExhibition: \(web.timeInterval) \(web.timeExhibition) \(web.url)")
-        if web.timeExhibition > 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(web.timeExhibition)) {
-                debugLog("timeExhibition: >>> \(web.url)")
-                
-                if WebHuntView.sharingWebs {
-                    self.zipView(subject: subject)
-                } else {
-                    self.updateURL()
-                }
-            }
-        }
-        
-        WebHuntView.webs.append(web)
-        debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function) \(web.url)")
-        let url = URL(string: web.url)!
-        
-        let requ = URLRequest.init(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20)
-        if (url.scheme == "http" || url.scheme == "https") {
-            debugLog("timeInterval: \(web.timeInterval) \(web.timeExhibition) \(web.url)")
-            intervalTimer.invalidate()
-            if web.timeInterval > 0 {
-                intervalTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(web.timeInterval), repeats: true) { (timer) in
-                    debugLog("timeInterval: --- \(timer) \(web.url)")
-                    wkWebView.load(requ)
-                }
-            } else {
-                wkWebView.load(requ)
-            }
-        }
-    }
-    
-    func zipView(subject: PublishSubject<WebHuntView>) {
-        if WebHuntViewManager.manager.subjects.count != DisplayDetection.sharedInstance.screens.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(1.5)) {
-                self.zipView(subject: subject)
-            }
-        }
-        if !WebHuntViewManager.manager.ziping {
-            WebHuntViewManager.manager.ziping = true
-            
-            Observable.zip(WebHuntViewManager.manager.subjects).subscribe { (event) in
-                WebHuntView.Static._web = nil
-                WebHuntViewManager.manager.subjects.removeAll()
-                //
-                if let webHuntViews:[WebHuntView] = event.element {
-                    for webHuntView in webHuntViews {
-                        webHuntView.updateURL()
-                    }
-                }
-                WebHuntViewManager.manager.ziping = false
-                }.disposed(by: self.disposeBag)
-        }
-        subject.onNext(self)
     }
     
     override var hasConfigureSheet: Bool {
