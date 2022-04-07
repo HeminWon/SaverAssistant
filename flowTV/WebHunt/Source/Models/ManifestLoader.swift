@@ -9,6 +9,8 @@
 import Foundation
 import Yams
 
+let kFileYaml = "/tvList.Yaml"
+
 extension Array where Element:Hashable {
     var unique:[Element] {
         var uniq = Set<Element>()
@@ -113,7 +115,7 @@ class ManifestLoader {
             let fileManager = FileManager.default
             
             var cacheResourcesString = cacheDirectory
-            cacheResourcesString.append(contentsOf: "/" + "tvList.yaml")
+            cacheResourcesString.append(contentsOf: kFileYaml)
             
             if !fileManager.fileExists(atPath: cacheResourcesString) {
                 return nil
@@ -193,12 +195,12 @@ class ManifestLoader {
         let fileManager = FileManager.default
         
         let cacheDirectory = WebCache.cacheDirectory!
-        if !fileManager.fileExists(atPath: cacheDirectory.appending("/tvList.yaml")) {
-            let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/tvList.yaml"))
+        if !fileManager.fileExists(atPath: cacheDirectory.appending(kFileYaml)) {
+            let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending(kFileYaml))
             fileManager.createFile(atPath: webHuntURL.path, contents: nil, attributes: nil)
         }
         
-        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/tvList.yaml"))
+        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending(kFileYaml))
         do {
             let file = try String(contentsOf: webHuntURL)
             let ele : Node = [Node("url"): try Node(url), Node("remark"): Node(remark)]
@@ -232,7 +234,7 @@ class ManifestLoader {
     
     func saveWebHunt(_ object: Any?) {
         let cacheDirectory = WebCache.cacheDirectory!
-        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending("/tvList.yaml"))
+        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending(kFileYaml))
         do {
             let yaml = try Yams.dump(object:object, allowUnicode: true)
             try yaml.write(to: webHuntURL, atomically: true, encoding: String.Encoding.utf8)

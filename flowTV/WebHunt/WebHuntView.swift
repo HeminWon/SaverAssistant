@@ -17,6 +17,7 @@ class WebHuntView: ScreenSaverView {
     var preferencesWindowController: PreferencesWindowController?
     
     static var previewView: WebHuntView?
+    static var sharedViews: [WebHuntView] = []
     
     let disposeBag = DisposeBag()
     
@@ -60,16 +61,24 @@ class WebHuntView: ScreenSaverView {
         let displayDetection = DisplayDetection.sharedInstance
         infoLog("\(displayDetection.screens)")
         
+        WebHuntView.sharedViews.append(self)
+        
         setupWebView()
         
         ManifestLoader.instance.addCallback { channels in
             debugLog("\(self.description) \(fileName(#file)):\(#line) \(#function)")
-            guard let urlStr = channels.first?.url else {
-                return
+            
+            for (n, vie) in WebHuntView.sharedViews.enumerated() {
+                
+                
+                guard let urlStr = channels[n].url else {
+                    return
+                }
+                let url = NSURL(string: urlStr)
+                debugLog("url:\(urlStr) view:\(vie)")
+                let playerItem = AVPlayerItem(url: url! as URL)
+                vie.avview.player?.replaceCurrentItem(with: playerItem)
             }
-            let url = NSURL(string: urlStr)
-            let playerItem = AVPlayerItem(url: url! as URL)
-            self.avview.player?.replaceCurrentItem(with: playerItem)
         }
     }
     
