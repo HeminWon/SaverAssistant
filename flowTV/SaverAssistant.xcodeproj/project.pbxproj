@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A43EFA2D22D4D5C0008AEE03 /* WHWebManagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43EFA2B22D4D5C0008AEE03 /* WHWebManagerController.swift */; };
-		A43EFA2E22D4D5C0008AEE03 /* WHWebManagerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A43EFA2C22D4D5C0008AEE03 /* WHWebManagerController.xib */; };
 		A44F98F227FB5C5E00F8842E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44F98F127FB5C5E00F8842E /* Parser.swift */; };
 		A44F98F427FC9AFB00F8842E /* M3uError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44F98F327FC9AFB00F8842E /* M3uError.swift */; };
 		A45DC0DD22A2DF05001A1447 /* WebHunt.saver in CopyFiles */ = {isa = PBXBuildFile; fileRef = A45DC0CE22A2DA17001A1447 /* WebHunt.saver */; };
@@ -27,7 +25,6 @@
 		A49F54A722AA43ED00022A59 /* WebCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A622AA43ED00022A59 /* WebCache.swift */; };
 		A49F54AA22AA688500022A59 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54A922AA688500022A59 /* DownloadManager.swift */; };
 		A49F54AC22AA6A0900022A59 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49F54AB22AA6A0900022A59 /* AsynchronousOperation.swift */; };
-		A4A6B94122DB5DC1002536D6 /* WHWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A6B94022DB5DC1002536D6 /* WHWebViewController.swift */; };
 		A4B46CBA22B92A22007FB19C /* CheckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B46CB922B92A22007FB19C /* CheckCellView.swift */; };
 		A4C48167229A51B60060F891 /* MEMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48160229A51B50060F891 /* MEMView.swift */; };
 		A4C48168229A51B60060F891 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C48161229A51B50060F891 /* AppDelegate.swift */; };
@@ -64,8 +61,6 @@
 
 /* Begin PBXFileReference section */
 		0095C5E21F22F2B7001CB8AD /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A43EFA2B22D4D5C0008AEE03 /* WHWebManagerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHWebManagerController.swift; sourceTree = "<group>"; };
-		A43EFA2C22D4D5C0008AEE03 /* WHWebManagerController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WHWebManagerController.xib; sourceTree = "<group>"; };
 		A44F98F127FB5C5E00F8842E /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		A44F98F327FC9AFB00F8842E /* M3uError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = M3uError.swift; sourceTree = "<group>"; };
 		A45DC0CE22A2DA17001A1447 /* WebHunt.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebHunt.saver; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,7 +78,6 @@
 		A49F54A622AA43ED00022A59 /* WebCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCache.swift; sourceTree = "<group>"; };
 		A49F54A922AA688500022A59 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		A49F54AB22AA6A0900022A59 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
-		A4A6B94022DB5DC1002536D6 /* WHWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WHWebViewController.swift; sourceTree = "<group>"; };
 		A4B46CB922B92A22007FB19C /* CheckCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCellView.swift; sourceTree = "<group>"; };
 		A4C4815E229A51B50060F891 /* Runner.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A4C4815F229A51B50060F891 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -187,9 +181,6 @@
 				A46A54A022A420B500E86E35 /* WHContainerViewController.swift */,
 				A4CF3C5822ABF16500FFCA38 /* WHWebPreferencesViewController.swift */,
 				A49B1BE422BFCE4800872E5C /* HTAdvancedViewController.swift */,
-				A43EFA2B22D4D5C0008AEE03 /* WHWebManagerController.swift */,
-				A43EFA2C22D4D5C0008AEE03 /* WHWebManagerController.xib */,
-				A4A6B94022DB5DC1002536D6 /* WHWebViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -356,7 +347,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A46A549C22A3EE0600E86E35 /* Preferences.storyboard in Resources */,
-				A43EFA2E22D4D5C0008AEE03 /* WHWebManagerController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +371,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A46A549822A3ED5000E86E35 /* WebHuntView.swift in Sources */,
-				A4A6B94122DB5DC1002536D6 /* WHWebViewController.swift in Sources */,
 				A49F54A422AA25AD00022A59 /* HunterWeb.swift in Sources */,
 				A44F98F427FC9AFB00F8842E /* M3uError.swift in Sources */,
 				A49B1BE622BFCE4800872E5C /* HTAdvancedViewController.swift in Sources */,
@@ -396,7 +385,6 @@
 				A4CF3C5922ABF16500FFCA38 /* WHWebPreferencesViewController.swift in Sources */,
 				A49B1BDF22BFC0D700872E5C /* LogMessage.swift in Sources */,
 				A44F98F227FB5C5E00F8842E /* Parser.swift in Sources */,
-				A43EFA2D22D4D5C0008AEE03 /* WHWebManagerController.swift in Sources */,
 				A49F54A222AA216400022A59 /* ManifestLoader.swift in Sources */,
 				A46A54A122A420B500E86E35 /* WHContainerViewController.swift in Sources */,
 			);
