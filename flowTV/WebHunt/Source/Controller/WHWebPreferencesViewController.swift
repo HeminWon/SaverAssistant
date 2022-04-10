@@ -9,15 +9,51 @@
 import Cocoa
 import WebKit
 
-class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate {
+extension NSTextField {
+    override open func performKeyEquivalent(with event: NSEvent) -> Bool {
+        let modifierkeys = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        let key = event.characters ?? ""
+        /// 点击 esc 取消焦点
+        if modifierkeys.rawValue == 0 && key == "\u{1B}" {
+            self.window?.makeFirstResponder(nil)
+        }
+        // command + shift + z 还原
+        if modifierkeys == [.command, .shift] && key == "z" {
+            self.window?.firstResponder?.undoManager?.redo()
+            return true
+        }
+        if modifierkeys != .command {
+            return super.performKeyEquivalent(with: event)
+        }
+        switch key {
+        case "a":  // 撤消
+            return NSApp.sendAction(#selector(NSText.selectAll(_:)), to: self.window?.firstResponder, from: self)
+        case "c":  // 复制
+            return NSApp.sendAction(#selector(NSText.copy(_:)), to: self.window?.firstResponder, from: self)
+        case "v":  // 粘贴
+            return NSApp.sendAction(#selector(NSText.paste(_:)), to: self.window?.firstResponder, from: self)
+        case "x":  // 剪切
+            return NSApp.sendAction(#selector(NSText.cut(_:)), to: self.window?.firstResponder, from: self)
+        case "z":  // 撤消
+            self.window?.firstResponder?.undoManager?.undo()
+            return true
+        default:
+            return super.performKeyEquivalent(with: event)
+        }
+    }
+}
 
-    @IBOutlet weak var outlineView: NSOutlineView!
+class WHWebPreferencesViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+
+    @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var textField: NSTextField!
     @IBOutlet weak var newDisplayModePopup: NSPopUpButton!
     @IBOutlet weak var newViewingModePopup: NSPopUpButton!
+    @IBOutlet weak var loadBtn: NSButton!
     
     lazy var preferences = Preferences.sharedInstance
     
-    var webs: [HunterWeb]?
+    var channels : [Channel]?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,9 +62,12 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        outlineView.floatsGroupRows = false
-        outlineView.delegate = self
-        outlineView.dataSource = self
+        self.tableView.floatsGroupRows = false
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
+        self.textField.maximumNumberOfLines = 1
+        self.textField.stringValue = ManifestLoader.instance.subscribeURL?.absoluteString ?? ""
         loadJSON()
     }
     
@@ -40,21 +79,28 @@ class WHWebPreferencesViewController: NSViewController, NSOutlineViewDataSource,
     // MARK: - Manifest
     func loadJSON() {
         ManifestLoader.instance.addCallback { channels in
+            self.channels = channels
             self.loaded(channels: channels)
         }
     }
     
     func loaded(channels: [Channel]) {
-        
         DispatchQueue.main.async {
-            self.outlineView.reloadData()
-            self.outlineView.expandItem(nil, expandChildren: true)
+            self.tableView.reloadData()
         }
     }
 }
 
 // MARK: -
 extension WHWebPreferencesViewController {
+    @IBAction func loadAction(_ sender: NSButton) {
+        self.tableView.reloadData()
+        self.loadJSON()
+    }
+    
+    @IBAction func urlTextFiled(_ sender: NSTextFieldCell) {
+        ManifestLoader.instance.subscribeURL = URL(string: sender.stringValue)
+    }
     
     @IBAction func newDisplayModeAction(_ sender: NSPopUpButton) {
         debugLog("UI newDisplayModeClick: \(sender.indexOfSelectedItem)")
@@ -72,54 +118,45 @@ extension WHWebPreferencesViewController {
 
 // MARK: - Outline View Delegate & Data Source
 extension WHWebPreferencesViewController {
-    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        return 1
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 20
     }
     
-    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        switch item {
-        case is Category:
-            return true
-        default:
-            return false
-        }
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return self.channels?.count ?? 0
     }
     
-    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        return false
+    func tableView(_ tableView: NSTableView, typeSelectStringFor tableColumn: NSTableColumn?, row: Int) -> String? {
+        return "testtesttest"
     }
     
-    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
-        return "untitled"
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, shouldEdit tableColumn: NSTableColumn?, item: Any) -> Bool {
-        return false
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, dataCellFor tableColumn: NSTableColumn?, item: Any) -> NSCell? {
-        let row = outlineView.row(forItem: item)
-        return tableColumn!.dataCell(forRow: row) as? NSCell
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
-        return true
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        // get the NSTableCellView for the column
+        let result : NSTableCellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! NSTableCellView
 
-        return nil
+        switch tableColumn?.identifier.rawValue {
+        case "AutomaticTableColumnIdentifier.0":
+            result.textField?.stringValue = (self.channels?[row].name)!
+            break
+        case "AutomaticTableColumnIdentifier.1":
+            result.textField?.stringValue = (self.channels?[row].url)!
+            break
+        default: break
+        }
+        return result
     }
     
-    func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
-        return true
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+        if let rowView = tableView.makeView(withIdentifier: .ruleRowView, owner: self) as? NSTableRowView {
+            return rowView
+        }
+
+        let rowView = NSTableRowView(frame: .zero)
+        rowView.identifier = .ruleRowView
+        return rowView
     }
-    
-    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
-        return 10
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, sizeToFitWidthOfColumn column: Int) -> CGFloat {
-        return 0
-    }
+}
+
+private extension NSUserInterfaceItemIdentifier {
+    static let ruleRowView = NSUserInterfaceItemIdentifier(rawValue: "RuleRowView")
 }

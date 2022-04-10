@@ -87,8 +87,6 @@ class WebHuntView: ScreenSaverView {
     let playVC = AVPlayerLayer()
 
     func setupWebView() {
-        let url = NSURL(string: "http://iptv.tvfix.org/hls/cctv13hd.m3u8")
-        let playerItem = AVPlayerItem(url: url! as URL)
 //        avPlayer.replaceCurrentItem(with: playerItem)
 //        playVC.player = avplayer
 //        playVC.player?.replaceCurrentItem(with: playerItem)
@@ -98,7 +96,6 @@ class WebHuntView: ScreenSaverView {
         avview.player = avplayer
 //        avview.player?.isMuted = true
         avview.player?.volume = 0.0
-        avview.player?.replaceCurrentItem(with: playerItem)
         avview.controlsStyle = .none
         avview.frame = self.bounds
         avview.player?.play()

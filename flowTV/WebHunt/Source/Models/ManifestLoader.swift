@@ -7,9 +7,7 @@
 //
 
 import Foundation
-import Yams
-
-let kFileYaml = "/tvList.Yaml"
+import AppKit
 
 extension Array where Element:Hashable {
     var unique:[Element] {
@@ -49,11 +47,25 @@ typealias ManifestLoadCallback = ([Channel]) -> Void
 class ManifestLoader {
     static let instance: ManifestLoader = ManifestLoader()
     
+    fileprivate var _subscribeURL: URL?
+    
+    var subscribeURL: URL? {
+        set {
+            _subscribeURL = newValue
+            UserDefaults.standard.set(_subscribeURL, forKey: "subscribeURL")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return _subscribeURL ?? UserDefaults.standard.url(forKey: "subscribeURL")
+        }
+    }
+    
     var callbacks = [ManifestLoadCallback]()
     var loadedManifest = [Channel]()
     
     init() {
     }
+    
     
     func addCallback(_ callback:@escaping ManifestLoadCallback) {
         if self.areManifestsFilesLoaded() {
@@ -110,42 +122,29 @@ class ManifestLoader {
         return true
     }
     
-    func webHuntsubscribe() -> [Subscriber]? {
-        if let cacheDirectory = WebCache.cacheDirectory {
-            let fileManager = FileManager.default
-            
-            var cacheResourcesString = cacheDirectory
-            cacheResourcesString.append(contentsOf: kFileYaml)
-            
-            if !fileManager.fileExists(atPath: cacheResourcesString) {
-                return nil
-            }
-            
-            let fileURL = URL(fileURLWithPath: cacheResourcesString)
-            guard let subscrbes = readSubsribes(url: fileURL) else {
-                return nil
-            }
-            if subscrbes.isEmpty {
-                return nil
-            }
-            return subscrbes
+    func downloadM3U(_ url: URL,callback:@escaping () -> Void) {
+        if !url.isM3U {
+            errorLog("need yaml file url")
+            return
         }
-        return nil
+        
+        let downloadManager = DownloadManager()
+        let completion = BlockOperation {
+            callback()
+        }
+        let operation = downloadManager.queueDownload(url)
+        completion.addDependency(operation)
+        OperationQueue.main.addOperation(completion)
     }
+
     
     func load() {
-        if areManifestsFilesLoaded() {
+        if areManifestsCached() {
             loadCachedManifests()
         } else {
-            if areManifestsCached() {
-                loadCachedManifests()
-            } else {
-                if let subscribes = webHuntsubscribe() {
-                    for subscribe in subscribes {
-                        subscribeWebs(url: subscribe.url, remark: subscribe.remark)
-                    }
-                } else {
-                    subscribeWebs(url: URL(string: "https://raw.githubusercontent.com/HeminWon/homelab/master/m3u8/heminTV.m3u")!, remark: "hunter")
+            if let url = self.subscribeURL {
+                self.downloadM3U(url) {
+                    self.loadCachedManifests()
                 }
             }
         }
@@ -172,83 +171,8 @@ class ManifestLoader {
                 } catch {
                     
                 }
-                
             }
         }
-    }
-    
-    // MARK: - Subscribe
-    func subscribeWebs(url: URL, remark: String) {
-        if !url.isM3U {
-            errorLog("need yaml file url")
-            return
-        }
-        
-        let downloadManager = DownloadManager()
-        let completion = BlockOperation {
-            self.loadCachedManifests()
-        }
-        let operation = downloadManager.queueDownload(url)
-        completion.addDependency(operation)
-        OperationQueue.main.addOperation(completion)
-        
-        let fileManager = FileManager.default
-        
-        let cacheDirectory = WebCache.cacheDirectory!
-        if !fileManager.fileExists(atPath: cacheDirectory.appending(kFileYaml)) {
-            let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending(kFileYaml))
-            fileManager.createFile(atPath: webHuntURL.path, contents: nil, attributes: nil)
-        }
-        
-        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending(kFileYaml))
-        do {
-            let file = try String(contentsOf: webHuntURL)
-            let ele : Node = [Node("url"): try Node(url), Node("remark"): Node(remark)]
-            guard var node = try Yams.compose(yaml: file) else {
-                let node0 = [Node("subscribes"): [ele]]
-                saveWebHunt(node0)
-                return
-            }
-            guard var map = node.mapping else {
-                node.mapping = [Node("subscribes"): [ele]]
-                saveWebHunt(node)
-                return
-            }
-            guard var subscribes = map["subscribes" as Node] else {
-                map[String("subscribes")] = [ele]
-                node.mapping = map
-                saveWebHunt(node)
-                return
-            }
-            subscribes.sequence?.append(ele)
-            subscribes.sequence = Node.Sequence(subscribes.array().unique.filter({$0.mapping?["url" as Node]}).filter({($0.mapping?["remark"]?.string) != nil}).filter({($0.mapping?["url"]?.string) != nil}))
-            map[String("subscribes")] = subscribes
-            node.mapping = map
-            
-            let yaml = try Yams.dump(object:node, allowUnicode: true)
-            try yaml.write(to: webHuntURL, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            errorLog("\(error)")
-        }
-    }
-    
-    func saveWebHunt(_ object: Any?) {
-        let cacheDirectory = WebCache.cacheDirectory!
-        let webHuntURL = URL(fileURLWithPath:cacheDirectory.appending(kFileYaml))
-        do {
-            let yaml = try Yams.dump(object:object, allowUnicode: true)
-            try yaml.write(to: webHuntURL, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            errorLog("\(error)")
-        }
-    }
-
-    func findBestEffortWeb() -> HunterWeb? {
-        let shuffled = loadedManifest.shuffled()
-        if shuffled.isEmpty {
-        }
-        return nil
-//        return shuffled.first
     }
     
     // MARK: - JSON
@@ -267,46 +191,4 @@ class ManifestLoader {
         let channels = try? M3U.load(m3u: yamlStr)
         return channels
     }
-    
-    func readYaml(_ url: URL) -> NSDictionary? {
-        if !url.isFileURL {
-            errorLog("need yaml file")
-            return nil
-        }
-        
-        let file = try? String(contentsOf: url)
-        
-        guard let yamlStr = file else {
-            return nil;
-        }
-        let batches = try? Yams.load(yaml: yamlStr) as? [String: Any]
-        
-        guard let batch = batches else {
-            return nil
-        }
-        return batch as NSDictionary
-    }
-    
-    func readSubsribes(url: URL) -> [Subscriber]? {
-        if !FileManager.default.fileExists(atPath: url.path) {
-            return nil
-        }
-        if let batch = readYaml(url) {
-            guard let assets = batch["subscribes"] as? [NSDictionary] else { return nil }
-            var subscribes = [Subscriber]()
-            for item in assets {
-                guard let url = item["url"] as? String else {
-                    continue
-                }
-                guard let remark = item["remark"] as? String else {
-                    continue
-                }
-                if let subURL = URL(string: url) {
-                    let sub = Subscriber(url: subURL, remark: remark)
-                    subscribes.append(sub)
-                }
-            }
-            return subscribes
-        }
-        return nil
-    }}
+}
